@@ -26,6 +26,21 @@ class ItemList extends Component {
 			isError, 
 			isListEnd } = this.props.mainState;
 
+		const loading = isLoading ? <p className="loading">Loading</p> : null;
+		const errorMessage = <p>An error occured getting data</p>;
+		const listEnd = isListEnd ? <p>List End</p> : null;
+		const itemList = 
+					<div>
+						<ul className="item-list" id="itemList">
+							{items.map(item => (
+								<li className='item' key={ item.id }>
+									<ItemThumbnail
+										item={ item }
+									/>
+								</li>
+							))}
+						</ul>
+					</div>;
 		//handling errors while fetching content
 		const itemsOrError = !isError ? itemList : errorMessage;
 		return (
