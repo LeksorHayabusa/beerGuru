@@ -5,9 +5,9 @@ class ItemThumbnail extends Component {
 	render() {
 		const { image_url, name, tagline } = this.props.item
 		return (
-			<div className="item-top">
+			<div className="preview-top">
 				<div 
-					className="item-cover"
+					className="preview-cover"
 					style={{
 						width: '128px',
 						height: '190px',
@@ -15,8 +15,8 @@ class ItemThumbnail extends Component {
 					}} 
 					>
 				</div>
-				<div className='item-title'>{ name }</div>
-				<div className='item-slogan'>{ tagline }</div>
+				<div className='preview-title'>{ name }</div>
+				<div className='preview-slogan'>{ tagline }</div>
 			</div>
 		)
 	}

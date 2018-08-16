@@ -1,8 +1,12 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
 import * as BeerAPI from './BeerAPI'
+import SimilarList from './SimilarList'
 
 class ItemOpened extends Component {
+
+
+
 	render() {
 		const { 
 			items, 
@@ -15,21 +19,44 @@ class ItemOpened extends Component {
 			openedItem } = this.props.mainState,
 		{	image_url,
 			name,
-			tagline } = openedItem
-		console.log(openedItem)
+			tagline,
+			ibu,
+			abv,
+			ebc,
+			description,
+			food_pairing } = openedItem;
 		return (
-			<div className="full-description-top">
+			<div className="opened-top">
 				<div 
-					className="full-description-cover"
+					className="opened-cover"
 					style={{
-						width: '128px',
-						height: '190px',
+						width: '200px',
+						height: '400px',
 						backgroundImage: `url("${image_url}")`
 					}} 
 					>
 				</div>
-				<div className='full-description-title'>{ name }</div>
-				<div className='full-description-slogan'>{ tagline }</div>
+				<div className='opened-overview'>
+					<div className='opened-title'>{ name }</div>
+					<div className='opened-slogan'>{ tagline }</div>
+					<div className='opened-feature-container'>
+						<div><p className='opened-features-name'>IBU</p>{ ibu }</div>
+						<div><p className='opened-features-name'>ABV</p>{ abv }%</div>
+						<div><p className='opened-features-name'>EBC</p>{ ebc }</div>
+					</div>
+					<div className='opened-description'>{ description }</div>
+					<div className='opened-pairing-list'>
+						<p>Best served with:</p>
+						<ul>
+							{food_pairing ? food_pairing.map(el => 
+								<li key="el">{ el }</li>
+							) : 'no specified food'}
+						</ul>
+					</div>
+					<SimilarList 
+						mainState={ this.props.mainState }
+					/>
+				</div>
 			</div>
 		)
 	}

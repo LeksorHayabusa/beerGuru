@@ -59,8 +59,6 @@ class App extends Component {
 
   downloadSingleItem = () => {
     const itemID = this.state.openedItemID;
-    console.log('single item id', itemID)    
-    
     this.setState({
       isOpenedLoading: true,
       isOpenedError: false
@@ -73,7 +71,6 @@ class App extends Component {
           openedItem: item
         })
       })
-      console.log('single item', this.state.openedItem)    
   }
 
   openItem = (itemID) => {
@@ -95,18 +92,18 @@ class App extends Component {
           <span className="beer-part">BEER</span>
           <span className="guru-part">GURU</span>
         </h1>
-        <Route path='/details/' render={ () => (
+        {/* <Route path='/details/' render={ () => ( */}
           <ItemOpened
             mainState={ this.state }
           />
-        )}/>
-        <Route exect path='/' render={ () => (
+        {/* )}/> 
+        <Route exect path='/' render={ () => (*/}
           <ItemList
             mainState={ this.state }
             openItem={ this.openItem }
             downloadNextItems={ this.downloadNextItems }
           />
-        )}/>
+        {/* )}/> */}
       </div>
     );
   }

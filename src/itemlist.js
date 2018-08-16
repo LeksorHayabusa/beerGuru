@@ -26,9 +26,7 @@ class ItemList extends Component {
 			isListError, 
 			isListEnd } = this.props.mainState;
 
-		const loading = isListLoading ? <p className="loading">Loading</p> : null;
 		const errorMessage = <p>An error occured getting data</p>;
-		const listEnd = isListEnd ? <p>List End</p> : null;
 		const itemList =
 					<div>
 						<ul className="item-list" id="itemList">
@@ -46,12 +44,11 @@ class ItemList extends Component {
 						</ul>
 					</div>;
 		//handling errors while fetching content
-		const itemsOrError = !isListError ? itemList : errorMessage;
 		return (
 			<div className="container">
-				{ itemsOrError }
-				{ loading }
-				{ listEnd }
+				{ !isListError ? itemList : errorMessage }
+				{ isListLoading ? <p className="loading">Loading</p> : null }
+				{ isListEnd ? <p>List End</p> : null }
 			</div>
 		)
 	}
