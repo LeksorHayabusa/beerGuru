@@ -17,24 +17,19 @@ class ItemList extends Component {
 	
 	componentWillUnmount = () => {
 		window.removeEventListener('scroll', this.handleScroll)
-	}
-	
-	componentWillMount = () => {
-		
-	}
-	
+	}	
 
 	render() {
 		const { 
 			items, 
-			isLoading, 
-			isError, 
+			isListLoading, 
+			isListError, 
 			isListEnd } = this.props.mainState;
 
-		const loading = isLoading ? <p className="loading">Loading</p> : null;
+		const loading = isListLoading ? <p className="loading">Loading</p> : null;
 		const errorMessage = <p>An error occured getting data</p>;
 		const listEnd = isListEnd ? <p>List End</p> : null;
-		const itemList = 
+		const itemList =
 					<div>
 						<ul className="item-list" id="itemList">
 							{items.map(item => (
@@ -51,7 +46,7 @@ class ItemList extends Component {
 						</ul>
 					</div>;
 		//handling errors while fetching content
-		const itemsOrError = !isError ? itemList : errorMessage;
+		const itemsOrError = !isListError ? itemList : errorMessage;
 		return (
 			<div className="container">
 				{ itemsOrError }

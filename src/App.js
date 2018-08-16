@@ -19,6 +19,19 @@ class App extends Component {
     openedItem: {}
   }
 
+  checkItemError = (element) => {
+    if(element instanceof Error || element === undefined) {
+      console.log(element)
+      if(element instanceof Error && element.statusCode == 429)
+        alert('you have reached query limits. Try later in an hour');
+      this.setState({
+        isListError: true,
+        isListLoading: false
+      })
+      return true
+    }
+  }
+
   downloadNextItems = () => {
     const per_page = this.state.per_page;
     let storedItems = this.state.items,
@@ -29,15 +42,7 @@ class App extends Component {
     })
     BeerAPI.getAll(page, per_page)
       .then(items => {
-        if(items instanceof Error || items === undefined) {
-          console.log(items.statusCode)
-          if(items instanceof Error && items.statusCode == 429)
-            alert('you have reached query limits. Try later in an hour');
-          return this.setState({
-          isListError: true,
-          isListLoading: false
-        })
-      }
+        if(this.checkItemError(items)) return;
         if(items.length != 0) storedItems = storedItems.concat(items);
         //if the queries reached the end of list
         if(items.length === 0) {
@@ -60,12 +65,7 @@ class App extends Component {
     })
     BeerAPI.getSingleBeer(item)
       .then(item => {
-        if(item instanceof Error || item === undefined) return this.setState({
-          isOpenedError: true,
-          isOpenedLoading: false,
-          openedItemID: null,
-          openedItem: {}
-        })
+        if(this.checkItemError(item)) return;
         this.setState({
           isOpenedLoading: false,
           openedItem: item
