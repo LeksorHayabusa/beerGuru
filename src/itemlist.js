@@ -8,7 +8,7 @@ class ItemList extends Component {
 		const scrolled = window.innerHeight + window.scrollY,
 		preBottom = document.body.offsetHeight - 500,
 		items = this.props.mainState.items;
-		if(scrolled >= preBottom && items.length) this.props.uploadNextItems()
+		if(scrolled >= preBottom && items.length) this.props.downloadNextItems()
 	}
 
 	componentDidMount = () => {
@@ -19,6 +19,11 @@ class ItemList extends Component {
 		window.removeEventListener('scroll', this.handleScroll)
 	}
 	
+	componentWillMount = () => {
+		
+	}
+	
+
 	render() {
 		const { 
 			items, 
@@ -33,10 +38,14 @@ class ItemList extends Component {
 					<div>
 						<ul className="item-list" id="itemList">
 							{items.map(item => (
-								<li className='item' key={ item.id }>
-									<ItemThumbnail
-										item={ item }
-									/>
+								<li 
+									className='item'
+									key={ item.id }
+									onClick={ () => {
+										console.log('clicked item')
+										this.props.openItem(item.id)} }
+								>
+									<ItemThumbnail item={ item }/>
 								</li>
 							))}
 						</ul>

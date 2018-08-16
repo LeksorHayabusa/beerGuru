@@ -1,50 +1,86 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import * as BeerAPI from './BeerAPI'
+import * as ErrorHandling from './Error'
 import ItemList from './ItemList'
-import ItemExtended from './ItemExtended'
+import ItemOpened from './ItemOpened'
 import './App.css';
 
 class App extends Component {
   state = {
     items: [],
     page: null,
-    per_page:20,
-    isLoading: false,
-    isError: false,
+    per_page:50,
+    isListLoading: false,
+    isListError: false,
     isListEnd: false,
-    extendedItemID: null
+    isOpenedLoading: false,
+    isOpenedError: false,
+    openedItemID: null,
+    openedItem: {}
   }
 
-  componentDidMount() {
-    this.uploadNextItems()
+  setOnError = () => {
+    this.setState({
+      isListError: true,
+      isListLoading: false
+      })
   }
 
-  uploadNextItems = () => {
+  downloadNextItems = () => {
     const per_page = this.state.per_page;
     let storedItems = this.state.items,
       page = this.state.page + 1;
   	this.setState({ 
-      isLoading: true,
-      isError: false
+      isListLoading: true,
+      isListError: false
     })
     BeerAPI.getAll(page, per_page)
       .then(items => {
-        if(items instanceof Error) return this.setState({
-          isError: true,
-          isLoading: false
-        })
-        if(items.length !== 0) storedItems = storedItems.concat(items);
+        ErrorHandling.instanceOfError(items)
+        if(items.length != 0) storedItems = storedItems.concat(items);
+        //if the queries reached the end of list
         if(items.length === 0) {
-          page--;//if the queries reached the end of list
-          this.setState({ isListEnd: true })
+        page--;
+        this.setState({ isListEnd: true })
         }
         this.setState({ 
           items: storedItems,
           page,
-          isLoading: false
+          isListLoading: false
         })
       })
+  }
+
+  downloadSingleItem = () => {
+    const item = this.state.openedItemID;
+    this.setState({
+      isOpenedLoading: true,
+      isOpenedError: false
+    })
+    BeerAPI.getSingleBeer(item)
+      .then(item => {
+        if(item instanceof Error || item === undefined) return this.setState({
+          isOpenedError: true,
+          isOpenedLoading: false,
+          openedItemID: null,
+          openedItem: {}
+        })
+        this.setState({
+          isOpenedLoading: false,
+          openedItem: item
+        })
+      })
+      console.log('single item', this.state)    
+  }
+
+  openItem = (itemID) => {
+    this.setState({ openedItemID: itemID })
+    this.downloadSingleItem(itemID)
+  }
+
+  componentDidMount() {
+    this.downloadNextItems()
   }
 
   render() {
@@ -54,16 +90,18 @@ class App extends Component {
           <span className="beer-part">BEER</span>
           <span className="guru-part">GURU</span>
         </h1>
-        {/* <button onclick={ this.setState({ isError: true })}> hello but</button> */}
-          (<ItemList
+        <Route path='/details/' render={ () => (
+          <ItemOpened
             mainState={ this.state }
-            uploadNextItems={ this.uploadNextItems }
           />
         )}/>
-          <ItemExtended
+        <Route exect path='/' render={ () => (
+          <ItemList
             mainState={ this.state }
+            openItem={ this.openItem }
+            downloadNextItems={ this.downloadNextItems }
           />
-        )}/>        
+        )}/>
       </div>
     );
   }
