@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import * as BeerAPI from './BeerAPI'
-import * as ErrorHandling from './Error'
 import ItemList from './ItemList'
 import ItemOpened from './ItemOpened'
 import './App.css';
@@ -20,13 +19,6 @@ class App extends Component {
     openedItem: {}
   }
 
-  setOnError = () => {
-    this.setState({
-      isListError: true,
-      isListLoading: false
-      })
-  }
-
   downloadNextItems = () => {
     const per_page = this.state.per_page;
     let storedItems = this.state.items,
@@ -37,7 +29,15 @@ class App extends Component {
     })
     BeerAPI.getAll(page, per_page)
       .then(items => {
-        ErrorHandling.instanceOfError(items)
+        if(items instanceof Error || items === undefined) {
+          console.log(items.statusCode)
+          if(items instanceof Error && items.statusCode == 429)
+            alert('you have reached query limits. Try later in an hour');
+          return this.setState({
+          isListError: true,
+          isListLoading: false
+        })
+      }
         if(items.length != 0) storedItems = storedItems.concat(items);
         //if the queries reached the end of list
         if(items.length === 0) {
