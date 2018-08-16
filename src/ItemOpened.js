@@ -1,6 +1,5 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
-import * as BeerAPI from './BeerAPI'
 import SimilarList from './SimilarList'
 
 class ItemOpened extends Component {
@@ -49,11 +48,12 @@ class ItemOpened extends Component {
 						<p>Best served with:</p>
 						<ul>
 							{food_pairing ? food_pairing.map(el => 
-								<li key="el">{ el }</li>
+								<li key={ el }>{ el }</li>
 							) : 'no specified food'}
 						</ul>
 					</div>
 					<SimilarList 
+            openItem={ this.props.openItem }
 						mainState={ this.props.mainState }
 					/>
 				</div>

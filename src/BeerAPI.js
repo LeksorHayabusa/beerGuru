@@ -34,6 +34,6 @@ export const getSingleBeer = (id) => {
 			if(handleStatus(res)) throw handleStatus(res);
 			return res.json()
 		})
-		.then(data => {console.log(data[0]); return data[0]})
+		.then(data => data[0])
 		.catch( er => er)
 }

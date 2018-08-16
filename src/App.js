@@ -10,6 +10,7 @@ class App extends Component {
     items: [],
     page: null,
     per_page:50,
+    similarListPages: 3, 
     isListLoading: false,
     isListError: false,
     isListEnd: false,
