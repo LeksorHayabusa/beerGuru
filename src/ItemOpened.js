@@ -8,15 +8,28 @@ class ItemOpened extends Component {
 			items, 
 			isListLoading, 
 			isListError, 
-			isListEnd
+			isListEnd,
 			isOpenedLoading,
 			isOpenedError,
 			openedItemID,
-			openedItem } = this.props.mainState;
+			openedItem } = this.props.mainState,
+		{	image_url,
+			name,
+			tagline } = openedItem
+		console.log(openedItem)
 		return (
-			<div>
-				<h3>{openedItem.name}</h3>
-				
+			<div className="full-description-top">
+				<div 
+					className="full-description-cover"
+					style={{
+						width: '128px',
+						height: '190px',
+						backgroundImage: `url("${image_url}")`
+					}} 
+					>
+				</div>
+				<div className='full-description-title'>{ name }</div>
+				<div className='full-description-slogan'>{ tagline }</div>
 			</div>
 		)
 	}

@@ -58,12 +58,14 @@ class App extends Component {
   }
 
   downloadSingleItem = () => {
-    const item = this.state.openedItemID;
+    const itemID = this.state.openedItemID;
+    console.log('single item id', itemID)    
+    
     this.setState({
       isOpenedLoading: true,
       isOpenedError: false
     })
-    BeerAPI.getSingleBeer(item)
+    BeerAPI.getSingleBeer(itemID)
       .then(item => {
         if(this.checkItemError(item)) return;
         this.setState({
@@ -71,13 +73,16 @@ class App extends Component {
           openedItem: item
         })
       })
-      console.log('single item', this.state)    
+      console.log('single item', this.state.openedItem)    
   }
 
   openItem = (itemID) => {
-    this.setState({ openedItemID: itemID })
-    this.downloadSingleItem(itemID)
+    this.setState(
+      { openedItemID: itemID }, 
+      () => this.downloadSingleItem()
+    )
   }
+  
 
   componentDidMount() {
     this.downloadNextItems()

@@ -37,7 +37,7 @@ class ItemList extends Component {
 									className='item'
 									key={ item.id }
 									onClick={ () => {
-										console.log('clicked item')
+										console.log('clicked item', item.id)
 										this.props.openItem(item.id)} }
 								>
 									<ItemThumbnail item={ item }/>
