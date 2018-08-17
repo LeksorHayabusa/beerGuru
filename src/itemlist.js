@@ -38,7 +38,9 @@ class ItemList extends Component {
 										console.log('clicked item', item.id)
 										this.props.openItem(item.id)} }
 								>
-									<ItemThumbnail item={ item }/>
+									<Link to={`/details/:${item.id}`}>
+										<ItemThumbnail item={ item }/>
+									</Link>
 								</li>
 							))}
 						</ul>

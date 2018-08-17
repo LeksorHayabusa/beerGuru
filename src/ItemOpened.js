@@ -56,6 +56,9 @@ class ItemOpened extends Component {
             openItem={ this.props.openItem }
 						mainState={ this.props.mainState }
 					/>
+					<button className="back-button">
+						<Link to='/'>Back</Link>
+					</button>
 				</div>
 			</div>
 		)

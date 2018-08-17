@@ -16,6 +16,7 @@ class SimilarList extends Component {
 	}
 
 	showItems = () => {
+		this.separatedItems = [];
 		const { items } = this.props.mainState;
 		if(items.length != 0) {
 			this.separatedItems.push(this.getRandomItem())
