@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
+import ItemOpened from './ItemOpened'
 import * as BeerAPI from './BeerAPI'
 import ItemList from './ItemList'
-import ItemOpened from './ItemOpened'
 import './App.css';
 
 class App extends Component {
   state = {
     items: [],
     page: null,
-    per_page:50,
-    similarListPages: 3, 
+    per_page:20,
+    similarShownItems: 3, 
     isListLoading: false,
     isListError: false,
     isListEnd: false,
@@ -98,7 +98,7 @@ class App extends Component {
             mainState={ this.state }
           />
         )}/> 
-        <Route exect path='/' render={ () => (
+        <Route exact path='/' render={ () => (
           <ItemList
             mainState={ this.state }
             openItem={ this.openItem }

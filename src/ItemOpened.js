@@ -4,7 +4,10 @@ import SimilarList from './SimilarList'
 
 class ItemOpened extends Component {
 
-
+	componentDidMount = () => {
+		console.log(window.location)
+	}
+	
 
 	render() {
 		const { 
@@ -46,11 +49,11 @@ class ItemOpened extends Component {
 					<div className='opened-description'>{ description }</div>
 					<div className='opened-pairing-list'>
 						<p>Best served with:</p>
-						<ul>
+						<div>
 							{food_pairing ? food_pairing.map(el => 
-								<li key={ el }>{ el }</li>
+								<div key={ el }>{ el }</div>
 							) : 'no specified food'}
-						</ul>
+						</div>
 					</div>
 					<SimilarList 
             openItem={ this.props.openItem }

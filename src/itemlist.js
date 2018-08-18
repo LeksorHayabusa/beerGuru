@@ -4,15 +4,16 @@ import ItemThumbnail from './ItemThumbnail'
 
 class ItemList extends Component {
 
-	handleScroll(e) {
+	handleScroll = (e) => {
 		const scrolled = window.innerHeight + window.scrollY,
 		preBottom = document.body.offsetHeight - 500,
-		items = this.props.mainState.items;
-		if(scrolled >= preBottom && items.length) this.props.downloadNextItems()
+		items = this.props.mainState.items,
+		isAlreadyLoading = this.props.mainState.isListLoading;
+		if(scrolled >= preBottom && items.length && !isAlreadyLoading) this.props.downloadNextItems()
 	}
 
 	componentDidMount = () => {
-		window.addEventListener('scroll', (e) => this.handleScroll(e))
+		window.addEventListener('scroll', this.handleScroll)
 	}
 	
 	componentWillUnmount = () => {
@@ -29,21 +30,21 @@ class ItemList extends Component {
 		const errorMessage = <p>An error occured getting data</p>;
 		const itemList =
 					<div>
-						<ul className="item-list" id="itemList">
+						<div className="item-list" id="itemList">
 							{items.map(item => (
-								<li 
+								<div
 									className='item'
 									key={ item.id }
 									onClick={ () => {
 										console.log('clicked item', item.id)
 										this.props.openItem(item.id)} }
 								>
-									<Link to={`/details/:${item.id}`}>
+									<div to={`/details/:${item.id}`}>
 										<ItemThumbnail item={ item }/>
-									</Link>
-								</li>
+									</div>
+								</div>
 							))}
-						</ul>
+						</div>
 					</div>;
 		//handling errors while fetching content
 		return (

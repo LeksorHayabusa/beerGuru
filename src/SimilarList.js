@@ -5,7 +5,7 @@ class SimilarList extends Component {
 
 	constructor() {
 		super()
-		this.separatedItems = []
+		this.separatedItems = [];
 	}
 
 	getRandomItem = () => {
@@ -16,30 +16,34 @@ class SimilarList extends Component {
 	}
 
 	showItems = () => {
-		this.separatedItems = [];
-		const { items } = this.props.mainState;
+		console.log('counter', ++this.counter)
+		this.searatedItems = [];
+		const { items, similarShownItems } = this.props.mainState;
 		if(items.length != 0) {
-			this.separatedItems.push(this.getRandomItem())
-			console.log(this.separatedItems)
+			let i = similarShownItems;
+			console.log(similarShownItems)
+			while(i--)
+				this.separatedItems.push(this.getRandomItem())
 		}
 	}
 	
 	componentDidMount = () => {
-		console.log(this.separatedItems,'a')
+		this.showItems()
 	}
 	
+	componentWillUnmount = () => {
+		console.log('goodbye component')
+			
+	}
 
 	render() {
-		this.showItems()
 		const { items } = this.props.mainState
-		console.log(this.separatedItems.length, 'b')
 		return (
 			<div>
-				<hr></hr>
 				<p>You might also like:</p>
-				<ul className="item-list" id="itemList">
+				<div className="item-list" id="itemList">
 					{this.separatedItems.length > 0 ? this.separatedItems.map(item => (
-						<li 
+						<div 
 							className='item'
 							key={ item.id }
 							onClick={ () => {
@@ -47,10 +51,9 @@ class SimilarList extends Component {
 								this.props.openItem(item.id)} }
 						>
 							<ItemThumbnail item={ item }/>
-						</li>
+						</div>
 					)) : null}
-				</ul>
-				<hr></hr>
+				</div>
 			</div>
 		)
 	}
