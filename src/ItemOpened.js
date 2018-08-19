@@ -1,6 +1,7 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
 import SimilarList from './SimilarList'
+import loadingImg from './img/circle-arrow.svg';
 
 class ItemOpened extends Component {
 
@@ -53,25 +54,27 @@ class ItemOpened extends Component {
 						className={this.checkProperImage() ? "opened-cover" : "opened-improper-cover"}
 						style={{
 							width: '200px',
-							height: '400px',
+							height: this.checkProperImage() ? '450px' : '300px',
 							backgroundImage: `url("${image_url}")`
 						}} 
 						>
 					</div>
-					<div className='opened-title'>{ name }</div>
-					<div className='opened-slogan'>{ tagline }</div>
-					<div className='opened-feature-container'>
-						<div><p className='opened-features-name'>IBU</p>{ ibu }</div>
-						<div><p className='opened-features-name'>ABV</p>{ abv }%</div>
-						<div><p className='opened-features-name'>EBC</p>{ ebc }</div>
-					</div>
-					<div className='opened-description'>{ description }</div>
-					<div className='opened-pairing-list'>
-						<p>Best served with:</p>
-						<div>
-							{food_pairing ? food_pairing.map(el => 
-								<div key={ el }>{ el }</div>
-							) : 'no specified food'}
+					<div className="opened-text-container">
+						<h3 className='opened-title'>{ name }</h3>
+						<div className='opened-slogan'>{ tagline }</div>
+						<div className='opened-feature-container'>
+							<div className='opened-features-name'><strong>IBU</strong>: {ibu}</div>
+							<div className='opened-features-name'><strong>ABV</strong>: {abv}%</div>
+							<div className='opened-features-name'><strong>EBC</strong>: {ebc}</div>
+						</div>
+						<div className='opened-description'>{ description }</div>
+						<div className='opened-pairing-list'>
+							<p>Best served with:</p>
+							<div className="pairing-list">
+								{food_pairing ? food_pairing.map(el => 
+									<div key={ el }>{ el }</div>
+								) : 'no specified food'}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -80,9 +83,7 @@ class ItemOpened extends Component {
 					mainState={ this.props.mainState }
 					downloadNextItems={ this.props.downloadNextItems }
 				/>
-				<button className="back-button">
-					<Link to='/'>Back</Link>
-				</button>
+				<Link to='/' className="back-to-list-button"><p>Return ot List</p></Link>
 			</div>
 		)
 	}

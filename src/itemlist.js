@@ -1,6 +1,7 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
 import ItemThumbnail from './ItemThumbnail'
+import loadingImg from './img/circle-arrow.svg';
 
 class ItemList extends Component {
 
@@ -46,11 +47,18 @@ class ItemList extends Component {
 							))}
 						</div>
 					</div>;
-		//handling errors while fetching content
+		//handling errors while fetching contents
 		return (
 			<div className="container">
 				{ !isListError ? itemList : errorMessage }
-				{ isListLoading ? <p className="loading">Loading</p> : null }
+				{ isListLoading ? <div 
+					className="loading"
+					style={{
+						width: '50px',
+						height: '50px',
+						backgroundImage: `url("${loadingImg}")`
+					}} 
+				></div> : null }
 				{ isListEnd ? <p>List End</p> : null }
 			</div>
 		)

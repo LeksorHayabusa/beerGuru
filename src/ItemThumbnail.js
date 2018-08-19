@@ -16,7 +16,7 @@ class ItemThumbnail extends Component {
 					className={this.checkProperImage() ? "preview-cover" : "preview-improper-cover"}
 					style={{
 						width: '150px',
-						height: this.checkProperImage() ? '190px' : '150px',
+						height: this.checkProperImage() ? '190px' : '180px',
 						backgroundImage: `url("${image_url}")`
 					}} 
 					>

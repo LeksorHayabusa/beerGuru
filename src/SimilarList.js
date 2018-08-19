@@ -1,6 +1,7 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
 import ItemThumbnail from './ItemThumbnail'
+import loadingImg from './img/circle-arrow.svg';
 
 class SimilarList extends Component {
 
@@ -44,11 +45,12 @@ class SimilarList extends Component {
 			items, 
 			isListLoading,
 			isListError } = this.props.mainState;
+		//i run here this.showItems func just as temporary workaround
 		!isListLoading ? this.showItems() : null;
 		return (
 			<div>
-				<p>You might also like:</p>
-				<div className="item-list" id="itemList">
+				<h4 className="similar-title">You might also like:</h4>
+				<div className="item-list" id="similarList">
 					{this.separatedItems.length > 0 ? this.separatedItems.map(item => (
 						<div 
 							className='item'
