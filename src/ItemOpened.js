@@ -83,7 +83,7 @@ class ItemOpened extends Component {
 					mainState={ this.props.mainState }
 					downloadNextItems={ this.props.downloadNextItems }
 				/>
-				<Link to='/' className="back-to-list-button"><p>Return ot List</p></Link>
+				<Link to='/' className="back-to-list-button"><p>Return ot the List</p></Link>
 			</div>
 		)
 	}

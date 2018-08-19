@@ -48,7 +48,15 @@ class SimilarList extends Component {
 		//i run here this.showItems func just as temporary workaround
 		!isListLoading ? this.showItems() : null;
 		return (
-			<div>
+			<div className="similar-container">
+				{ isListLoading ? <div 
+					className="loading"
+					style={{
+						width: '50px',
+						height: '50px',
+						backgroundImage: `url("${loadingImg}")`
+					}} 
+				></div> : null }
 				<h4 className="similar-title">You might also like:</h4>
 				<div className="item-list" id="similarList">
 					{this.separatedItems.length > 0 ? this.separatedItems.map(item => (

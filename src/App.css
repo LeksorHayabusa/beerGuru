@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 #root {
-	width: 900px;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -41,7 +40,6 @@ a {
 
 .preview-top { 
 	background-color: #fff;
-	width: 200px;
 	height: 270px;
 	border-radius: 5px;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -50,6 +48,7 @@ a {
 	flex-flow: column;
 	align-items: center;
 	justify-content: center;
+	width: 200px;
 }
 
 .preview-top:hover {
@@ -108,7 +107,6 @@ a {
 	background-color: #fff;
 	border-radius: 5px;
 	padding: 40px 0;
-	width: 700px;
 }
 
 .opened-cover {
@@ -127,7 +125,6 @@ a {
 .opened-text-container {
 	display: flex;
 	flex-flow: column;
-	width: 400px;
 	color:#a4a4a4;
 }
 
@@ -169,8 +166,10 @@ a {
 	content: '- ';
 }
 
-#similarList {
-	width: 900px;
+.similar-container {
+	display: flex;
+	flex-flow: column;
+	align-items: center
 }
 
 .similar-title {
@@ -204,10 +203,120 @@ a {
 	background-repeat: no-repeat;
 	background-position: center;
 	animation: loading-spin infinite 5s linear;
+}
+
+#itemList .loading {
 	margin-bottom: 20px;
+}
+
+.similar-container .loading {
+	margin-top: 30px;
+	
 }
 
 @keyframes loading-spin {
 	from { transform: rotate(0deg) }
 	to { transform: rotate(360deg) }
+}
+@media only screen and (min-width: 1001px) {
+	#root {
+		width: 900px;		
+	}
+
+	.preview-top {
+		width: 200px;		
+	}
+
+	.opened-overview {
+		width: 700px;		
+	}
+
+	.opened-text-container {
+		width: 400px;		
+	}
+
+	#similarList {
+		width: 900px;
+	}
+
+
+}
+
+@media only screen and (max-width: 1000px) {
+	root {
+		max-width: 950px;
+		width: 100%;
+	}
+
+	.back-to-list-button {
+		position: absolute;
+		top: 0px;
+		right: 10%;
+	}
+
+	.opened-top {
+		flex-flow: row nowrap;
+		justify-content: unset;
+		align-items: stretch
+	}
+
+	.opened-overview {
+		flex-basis: 40%;
+		flex-shrink: 0.5;
+		flex-flow: column;
+		align-items: center;
+		padding: 0 20px;
+		margin-left: 10px;
+	}
+
+	.opened-cover {
+		height: 250px !important;
+		background-size: 30%;
+	}
+
+	.opened-improper-cover {
+		background-position: center;
+		height: 250px !important;
+		background-size: 60%;
+	}
+
+	.opened-text-container {
+		margin: 0 20px auto 20px;
+		width: 100%;
+	}
+
+	.opened-pairing-list {
+		padding-bottom: 15px;
+	}
+
+	.similar-container {
+		flex-basis: 60%;
+		flex-shrink: 2;
+	}
+	
+	#similarList {
+		flex-flow: row wrap;
+	}
+
+	.similar-container .item {
+		margin: 0 10px 20px 10px;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.back-to-list-button {
+		position: fixed;
+		right: 40px;
+		top: calc(100% - 100px)
+	}
+
+	.opened-top {
+		flex-flow: column;
+	}
+
+	.opened-overview {
+		border-radius: 0;
+		width: calc(100%-40px);
+		margin-left: 0;
+	}
 }
