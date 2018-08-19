@@ -4,8 +4,27 @@ import SimilarList from './SimilarList'
 
 class ItemOpened extends Component {
 
+	getAddressItemID = () => {
+		console.log(window.location.pathname.match(/(?:\d+)/))
+		return window.location.pathname.match(/\d+/)[0]
+	}
+
+	isLoadedItemID = () => {
+		const { openedItemID } = this.props.mainState;
+		return Boolean( openedItemID )
+	}
+
+	checkProperImage = () => {
+		const { image_url } = this.props.mainState.openedItem;
+		return !(/keg\.png/i .test(image_url))
+	}
+
 	componentDidMount = () => {
-		console.log(window.location)
+		const { openItem, downloadNextItems } = this.props;
+		if(this.isLoadedItemID) {
+			downloadNextItems()
+			openItem(this.getAddressItemID())
+		}
 	}
 	
 
@@ -29,16 +48,16 @@ class ItemOpened extends Component {
 			food_pairing } = openedItem;
 		return (
 			<div className="opened-top">
-				<div 
-					className="opened-cover"
-					style={{
-						width: '200px',
-						height: '400px',
-						backgroundImage: `url("${image_url}")`
-					}} 
-					>
-				</div>
 				<div className='opened-overview'>
+					<div 
+						className={this.checkProperImage() ? "opened-cover" : "opened-improper-cover"}
+						style={{
+							width: '200px',
+							height: '400px',
+							backgroundImage: `url("${image_url}")`
+						}} 
+						>
+					</div>
 					<div className='opened-title'>{ name }</div>
 					<div className='opened-slogan'>{ tagline }</div>
 					<div className='opened-feature-container'>
@@ -55,14 +74,15 @@ class ItemOpened extends Component {
 							) : 'no specified food'}
 						</div>
 					</div>
-					<SimilarList 
-            openItem={ this.props.openItem }
-						mainState={ this.props.mainState }
-					/>
-					<button className="back-button">
-						<Link to='/'>Back</Link>
-					</button>
 				</div>
+				<SimilarList 
+					openItem={ this.props.openItem }
+					mainState={ this.props.mainState }
+					downloadNextItems={ this.props.downloadNextItems }
+				/>
+				<button className="back-button">
+					<Link to='/'>Back</Link>
+				</button>
 			</div>
 		)
 	}

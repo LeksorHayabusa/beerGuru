@@ -96,6 +96,8 @@ class App extends Component {
         <Route path='/details/' render={ () => (
           <ItemOpened
             mainState={ this.state }
+            openItem={ this.openItem }
+            downloadNextItems={ this.downloadNextItems }
           />
         )}/> 
         <Route exact path='/' render={ () => (

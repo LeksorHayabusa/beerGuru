@@ -2,15 +2,21 @@ import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
 
 class ItemThumbnail extends Component {
+
+	checkProperImage = () => {
+		const { image_url } = this.props.item;
+		return !(/keg\.png/i .test(image_url))
+	}
+
 	render() {
 		const { image_url, name, tagline } = this.props.item
 		return (
 			<div className="preview-top">
 				<div 
-					className="preview-cover"
+					className={this.checkProperImage() ? "preview-cover" : "preview-improper-cover"}
 					style={{
-						width: '128px',
-						height: '190px',
+						width: '150px',
+						height: this.checkProperImage() ? '190px' : '150px',
 						backgroundImage: `url("${image_url}")`
 					}} 
 					>
@@ -19,6 +25,7 @@ class ItemThumbnail extends Component {
 				<div className='preview-slogan'>{ tagline }</div>
 			</div>
 		)
+
 	}
 }
 

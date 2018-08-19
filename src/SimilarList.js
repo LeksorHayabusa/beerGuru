@@ -1,4 +1,5 @@
 import React, { Component} from 'react'
+import { Link } from 'react-router-dom'
 import ItemThumbnail from './ItemThumbnail'
 
 class SimilarList extends Component {
@@ -11,19 +12,20 @@ class SimilarList extends Component {
 	getRandomItem = () => {
 		const { items } = this.props.mainState,
 			random = Math.floor(Math.random() * items.length);
-		console.log(items[random])
 		return items[random]
 	}
 
 	showItems = () => {
-		console.log('counter', ++this.counter)
-		this.searatedItems = [];
-		const { items, similarShownItems } = this.props.mainState;
+		this.separatedItems = [];
+		const { 
+			items, 
+			similarShownItems } = this.props.mainState;
 		if(items.length != 0) {
 			let i = similarShownItems;
-			console.log(similarShownItems)
 			while(i--)
 				this.separatedItems.push(this.getRandomItem())
+		} else {
+			this.props.downloadNextItems()
 		}
 	}
 	
@@ -37,7 +39,12 @@ class SimilarList extends Component {
 	}
 
 	render() {
-		const { items } = this.props.mainState
+		console.log('hello similaxr render ', this.separatedItems, this.props.mainState.similarShownItems)		
+		const { 
+			items, 
+			isListLoading,
+			isListError } = this.props.mainState;
+		!isListLoading ? this.showItems() : null;
 		return (
 			<div>
 				<p>You might also like:</p>
@@ -50,7 +57,9 @@ class SimilarList extends Component {
 								console.log('clicked item', item.id)
 								this.props.openItem(item.id)} }
 						>
-							<ItemThumbnail item={ item }/>
+							<Link to={`/details/:${item.id}`}>
+								<ItemThumbnail item={ item }/>
+							</Link>
 						</div>
 					)) : null}
 				</div>
