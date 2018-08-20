@@ -5,48 +5,18 @@ import loadingImg from './img/circle-arrow.svg';
 
 class SimilarList extends Component {
 
-	constructor() {
-		super()
-		this.separatedItems = [];
-	}
-
-	getRandomItem = () => {
-		const { items } = this.props.mainState,
-			random = Math.floor(Math.random() * items.length);
-		return items[random]
-	}
-
-	showItems = () => {
-		this.separatedItems = [];
-		const { 
-			items, 
-			similarShownItems } = this.props.mainState;
-		if(items.length != 0) {
-			let i = similarShownItems;
-			while(i--)
-				this.separatedItems.push(this.getRandomItem())
-		} else {
-			this.props.downloadNextItems()
-		}
-	}
-	
-	componentDidMount = () => {
-		this.showItems()
-	}
-	
 	componentWillUnmount = () => {
-		console.log('goodbye component')
-			
+		//clear similar list
+		//this.props.changeSimilarItems([])
 	}
 
 	render() {
-		console.log('hello similaxr render ', this.separatedItems, this.props.mainState.similarShownItems)		
-		const { 
-			items, 
+		console.log(this.props.mainState.similarList)
+		const {
 			isListLoading,
-			isListError } = this.props.mainState;
-		//i run here this.showItems func just as temporary workaround
-		!isListLoading ? this.showItems() : null;
+			isListError } = this.props.mainState,
+			similarList = this.props.mainState.similarList;
+		console.log('hello similaxr render ', this.props.mainState.similarList, similarList)
 		return (
 			<div className="similar-container">
 				{ isListLoading ? <div 
@@ -59,7 +29,7 @@ class SimilarList extends Component {
 				></div> : null }
 				<h4 className="similar-title">You might also like:</h4>
 				<div className="item-list" id="similarList">
-					{this.separatedItems.length > 0 ? this.separatedItems.map(item => (
+					{ similarList.length > 0 ? similarList.map(item => (
 						<div 
 							className='item'
 							key={ item.id }
@@ -71,7 +41,7 @@ class SimilarList extends Component {
 								<ItemThumbnail item={ item }/>
 							</Link>
 						</div>
-					)) : null}
+					)) : <div>something went wrong, retry one more time</div>}
 				</div>
 			</div>
 		)

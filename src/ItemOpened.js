@@ -81,6 +81,7 @@ class ItemOpened extends Component {
 				<SimilarList 
 					openItem={ this.props.openItem }
 					mainState={ this.props.mainState }
+					changeSimilarItems={ this.props.changeSimilarItems }
 					downloadNextItems={ this.props.downloadNextItems }
 				/>
 				<Link to='/' className="back-to-list-button"><p>Return ot the List</p></Link>

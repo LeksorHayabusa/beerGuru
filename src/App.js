@@ -10,14 +10,17 @@ class App extends Component {
     items: [],
     page: null,
     per_page:20,
-    similarShownItems: 3, 
+    similarList: {
+      shownNumber: 3,
+      items: []
+    }, 
     isListLoading: false,
     isListError: false,
     isListEnd: false,
     isOpenedLoading: false,
     isOpenedError: false,
     openedItemID: null,
-    openedItem: {}
+    openedItem: {},
   }
 
   checkItemError = (element) => {
@@ -55,6 +58,7 @@ class App extends Component {
           page,
           isListLoading: false
         })
+      this.showSimilarItems()
       })
   }
 
@@ -73,17 +77,47 @@ class App extends Component {
         })
       })
   }
+  
+    openItem = (itemID) => {
+      this.setState(
+        { openedItemID: itemID }, 
+        () => this.downloadSingleItem()
+      )
+    }
 
-  openItem = (itemID) => {
-    this.setState(
-      { openedItemID: itemID }, 
-      () => this.downloadSingleItem()
-    )
+  changeSimilarItems = (array) => {
+    const similarList = this.state.similarList.items;
+    console.log(similarList, 'hello from app')
+    this.setState({ similarList: array })
   }
+
+	getRandomItem = () => {
+		const similarList = this.state.similarList.items,
+			{ items } = this.state,
+			random = Math.floor(Math.random() * items.length);
+		return items[random]
+	}
+
+	showSimilarItems = () => {
+		const shownItems = [],
+			{ items } = this.state,
+			{ shownNumber } = this.state.similarList,
+			similarItems = this.state.similarList.items;
+		if(items.length > shownNumber && similarItems.length < shownNumber) {
+			let i = shownNumber - similarItems;
+			while(i--) {
+			console.log('hello while condition')
+        shownItems.push(this.getRandomItem())
+      }
+			this.changeSimilarItems(shownItems)
+		}
+	}
   
 
   componentDidMount() {
     this.downloadNextItems()
+		//!isListLoading ? this.showSimilarItems() : null;
+    
   }
 
   render() {
@@ -98,6 +132,7 @@ class App extends Component {
             mainState={ this.state }
             openItem={ this.openItem }
             downloadNextItems={ this.downloadNextItems }
+            changeSimilarItems={ this.changeSimilarItems }
           />
         )}/> 
         <Route exact path='/' render={ () => (

@@ -37,7 +37,6 @@ class ItemList extends Component {
 									className='item'
 									key={ item.id }
 									onClick={ () => {
-										console.log('clicked item', item.id)
 										this.props.openItem(item.id)} }
 								>
 									<Link to={`/details/:${item.id}`}>
