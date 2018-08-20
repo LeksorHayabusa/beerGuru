@@ -86,38 +86,43 @@ class App extends Component {
     }
 
   changeSimilarItems = (array) => {
-    const similarList = this.state.similarList.items;
-    console.log(similarList, 'hello from app')
-    this.setState({ similarList: array })
+    const 
+      similarItems = this.state.similarList.items,
+      similarQuantity = this.state.similarList.shownNumber;
+    console.log(array, 'hello from app')
+    this.setState({ similarList: { items: array, shownNumber: similarQuantity}}, () => {
+      console.log('after change', this.state.similarList.items.length)
+      // if( similarItems.length === 0) this.showSimilarItems();
+    })
   }
-
+  
 	getRandomItem = () => {
-		const similarList = this.state.similarList.items,
-			{ items } = this.state,
-			random = Math.floor(Math.random() * items.length);
+    const similarList = this.state.similarList.items,
+    { items } = this.state,
+    random = Math.floor(Math.random() * items.length);
 		return items[random]
 	}
-
+  
 	showSimilarItems = () => {
-		const shownItems = [],
-			{ items } = this.state,
-			{ shownNumber } = this.state.similarList,
-			similarItems = this.state.similarList.items;
+    const shownItems = [],
+    { items } = this.state,
+    { shownNumber } = this.state.similarList,
+    similarItems = this.state.similarList.items;
+    console.log('hello before while', items.length, similarItems,'shownnumber ' + shownNumber)
 		if(items.length > shownNumber && similarItems.length < shownNumber) {
 			let i = shownNumber - similarItems;
 			while(i--) {
 			console.log('hello while condition')
         shownItems.push(this.getRandomItem())
       }
+			console.log('hello after while', shownItems)      
 			this.changeSimilarItems(shownItems)
 		}
 	}
   
 
   componentDidMount() {
-    this.downloadNextItems()
-		//!isListLoading ? this.showSimilarItems() : null;
-    
+    this.downloadNextItems()    
   }
 
   render() {
@@ -131,6 +136,7 @@ class App extends Component {
           <ItemOpened
             mainState={ this.state }
             openItem={ this.openItem }
+            showSimilarItems={ this.showSimilarItems }
             downloadNextItems={ this.downloadNextItems }
             changeSimilarItems={ this.changeSimilarItems }
           />

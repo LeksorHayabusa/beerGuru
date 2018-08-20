@@ -6,7 +6,6 @@ import loadingImg from './img/circle-arrow.svg';
 class ItemOpened extends Component {
 
 	getAddressItemID = () => {
-		console.log(window.location.pathname.match(/(?:\d+)/))
 		return window.location.pathname.match(/\d+/)[0]
 	}
 
@@ -81,8 +80,8 @@ class ItemOpened extends Component {
 				<SimilarList 
 					openItem={ this.props.openItem }
 					mainState={ this.props.mainState }
+					showSimilarItems={ this.props.showSimilarItems }
 					changeSimilarItems={ this.props.changeSimilarItems }
-					downloadNextItems={ this.props.downloadNextItems }
 				/>
 				<Link to='/' className="back-to-list-button"><p>Return ot the List</p></Link>
 			</div>

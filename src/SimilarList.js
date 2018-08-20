@@ -5,18 +5,23 @@ import loadingImg from './img/circle-arrow.svg';
 
 class SimilarList extends Component {
 
+	componentDidMount = () => {
+		this.props.showSimilarItems()
+		console.log('after mounting', this.props.mainState.similarList)
+	}
+	
+
 	componentWillUnmount = () => {
 		//clear similar list
-		//this.props.changeSimilarItems([])
+		console.log('before cleaning', this.props.mainState.similarList)
+		this.props.changeSimilarItems([])
 	}
 
 	render() {
-		console.log(this.props.mainState.similarList)
 		const {
 			isListLoading,
 			isListError } = this.props.mainState,
-			similarList = this.props.mainState.similarList;
-		console.log('hello similaxr render ', this.props.mainState.similarList, similarList)
+			similarList = this.props.mainState.similarList.items;
 		return (
 			<div className="similar-container">
 				{ isListLoading ? <div 
@@ -34,7 +39,6 @@ class SimilarList extends Component {
 							className='item'
 							key={ item.id }
 							onClick={ () => {
-								console.log('clicked item', item.id)
 								this.props.openItem(item.id)} }
 						>
 							<Link to={`/details/:${item.id}`}>
