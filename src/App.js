@@ -26,7 +26,7 @@ class App extends Component {
   checkItemError = (element) => {
     if(element instanceof Error || element === undefined) {
       console.log(element)
-      if(element instanceof Error && element.statusCode == 429)
+      if(element instanceof Error && element.statusCode === 429)
         alert('you have reached query limits. Try later in an hour');
       this.setState({
         isListError: true,
@@ -47,7 +47,7 @@ class App extends Component {
     BeerAPI.getAll(page, per_page)
       .then(items => {
         if(this.checkItemError(items)) return;
-        if(items.length != 0) storedItems = storedItems.concat(items);
+        if(items.length !== 0) storedItems = storedItems.concat(items);
         //if the queries reached the end of list
         if(items.length === 0) {
         page--;
@@ -87,17 +87,17 @@ class App extends Component {
 
   changeSimilarItems = (array) => {
     const 
-      similarItems = this.state.similarList.items,
       similarQuantity = this.state.similarList.shownNumber;
-    console.log(array, 'hello from app')
-    this.setState({ similarList: { items: array, shownNumber: similarQuantity}}, () => {
-      console.log('after change', this.state.similarList.items.length)
-      // if( similarItems.length === 0) this.showSimilarItems();
-    })
+    this.setState(
+      { similarList: 
+        { items: array, 
+          shownNumber: similarQuantity
+        }
+      })
   }
   
 	getRandomItem = () => {
-    const similarList = this.state.similarList.items,
+  const
     { items } = this.state,
     random = Math.floor(Math.random() * items.length);
 		return items[random]
@@ -108,21 +108,17 @@ class App extends Component {
     { items } = this.state,
     { shownNumber } = this.state.similarList,
     similarItems = this.state.similarList.items;
-    console.log('hello before while', items.length, similarItems,'shownnumber ' + shownNumber)
 		if(items.length > shownNumber && similarItems.length < shownNumber) {
 			let i = shownNumber - similarItems;
 			while(i--) {
-			console.log('hello while condition')
         shownItems.push(this.getRandomItem())
       }
-			console.log('hello after while', shownItems)      
 			this.changeSimilarItems(shownItems)
 		}
 	}
   
-
   componentDidMount() {
-    this.downloadNextItems()    
+    this.downloadNextItems()
   }
 
   render() {

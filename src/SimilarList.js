@@ -7,20 +7,17 @@ class SimilarList extends Component {
 
 	componentDidMount = () => {
 		this.props.showSimilarItems()
-		console.log('after mounting', this.props.mainState.similarList)
 	}
 	
 
 	componentWillUnmount = () => {
 		//clear similar list
-		console.log('before cleaning', this.props.mainState.similarList)
 		this.props.changeSimilarItems([])
 	}
 
 	render() {
 		const {
-			isListLoading,
-			isListError } = this.props.mainState,
+			isListLoading } = this.props.mainState,
 			similarList = this.props.mainState.similarList.items;
 		return (
 			<div className="similar-container">
