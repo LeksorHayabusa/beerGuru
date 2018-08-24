@@ -105,9 +105,9 @@ class App extends Component {
   
 	showSimilarItems = () => {
     const shownItems = [],
-    { items } = this.state,
+      items = [...this.state.items],
     { shownNumber } = this.state.similarList,
-    similarItems = this.state.similarList.items;
+    similarItems = [...this.state.similarList.items];
 		if(items.length > shownNumber && similarItems.length < shownNumber) {
 			let i = shownNumber - similarItems;
 			while(i--) {
