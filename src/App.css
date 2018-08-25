@@ -21,12 +21,6 @@ a {
 	
 }
 
-@media only screen and (min-width: 1001px) {
-.container {
-		width: 900px;		
-	}
-}
-
 .overlay {
 	display: none;
 	position: fixed;
