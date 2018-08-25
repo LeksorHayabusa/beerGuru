@@ -1,7 +1,8 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
-import ItemThumbnail from './ItemThumbnail'
-import loadingImg from './img/circle-arrow.svg';
+import Thumbnail from './../Thumbnail/Thumbnail'
+import Loading from './../Loading/Loading'
+import classes from './SimilarList.css'
 
 class SimilarList extends Component {
 
@@ -9,7 +10,6 @@ class SimilarList extends Component {
 		this.props.showSimilarItems()
 	}
 	
-
 	componentWillUnmount = () => {
 		//clear similar list
 		this.props.changeSimilarItems([])
@@ -18,28 +18,22 @@ class SimilarList extends Component {
 	render() {
 		const {
 			isListLoading } = this.props.mainState,
-			similarList = this.props.mainState.similarList.items;
+			similarList = this.props.mainState.similarList.items,
+			loading = isListLoading ? Loading : null
 		return (
-			<div className="similar-container">
-				{ isListLoading ? <div 
-					className="loading"
-					style={{
-						width: '50px',
-						height: '50px',
-						backgroundImage: `url("${loadingImg}")`
-					}} 
-				></div> : null }
-				<h4 className="similar-title">You might also like:</h4>
-				<div className="item-list" id="similarList">
+			<div className={classes.container}>
+				{ loading }
+				<h4 className={classes.title}>You might also like:</h4>
+				<div className={classes.list} id="similarList">
 					{ similarList.length > 0 ? similarList.map(item => (
 						<div 
-							className='item'
+							className={classes.item}
 							key={ item.id }
 							onClick={ () => {
 								this.props.openItem(item.id)} }
 						>
 							<Link to={`/details/:${item.id}`}>
-								<ItemThumbnail item={ item }/>
+								<Thumbnail item={ item }/>
 							</Link>
 						</div>
 					)) : <div>something went wrong, retry one more time</div>}

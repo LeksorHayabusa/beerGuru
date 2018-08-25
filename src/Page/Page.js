@@ -1,8 +1,9 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
-import SimilarList from './SimilarList'
+import SimilarList from './../SimilarList/SimilarList'
+import classes from './Page.css'
 
-class ItemOpened extends Component {
+class Page extends Component {
 
 	getAddressItemID = () => {
 		return window.location.pathname.match(/\d+/)[0]
@@ -39,10 +40,10 @@ class ItemOpened extends Component {
 			description,
 			food_pairing } = openedItem;
 		return (
-			<div className="opened-top">
-				<div className='opened-overview'>
+			<div className={classes.top}>
+				<div className={classes.overview}>
 					<div 
-						className={this.checkProperImage() ? "opened-cover" : "opened-improper-cover"}
+						className={this.checkProperImage() ? classes.cover : classes.keg_cover}
 						style={{
 							width: '200px',
 							height: this.checkProperImage() ? '450px' : '300px',
@@ -50,18 +51,18 @@ class ItemOpened extends Component {
 						}} 
 						>
 					</div>
-					<div className="opened-text-container">
-						<h3 className='opened-title'>{ name }</h3>
-						<div className='opened-slogan'>{ tagline }</div>
-						<div className='opened-feature-container'>
-							<div className='opened-features-name'><strong>IBU</strong>: {ibu}</div>
-							<div className='opened-features-name'><strong>ABV</strong>: {abv}%</div>
-							<div className='opened-features-name'><strong>EBC</strong>: {ebc}</div>
+					<div className={classes['text-container']}>
+						<h3 className={classes.title}>{ name }</h3>
+						<div className={classes.slogan}>{ tagline }</div>
+						<div className={classes['feature-container']}>
+							<div className={classes['features-name']}><strong>IBU</strong>: {ibu}</div>
+							<div className={classes['features-name']}><strong>ABV</strong>: {abv}%</div>
+							<div className={classes['features-name']}><strong>EBC</strong>: {ebc}</div>
 						</div>
-						<div className='opened-description'>{ description }</div>
-						<div className='opened-pairing-list'>
+						<div className={classes.description}>{ description }</div>
+						<div className={classes['pairing-list']}>
 							<p>Best served with:</p>
-							<div className="pairing-list">
+							<div className={classes["pairing-list"]}>
 								{food_pairing ? food_pairing.map(el => 
 									<div key={ el }>{ el }</div>
 								) : 'no specified food'}
@@ -75,10 +76,10 @@ class ItemOpened extends Component {
 					showSimilarItems={ this.props.showSimilarItems }
 					changeSimilarItems={ this.props.changeSimilarItems }
 				/>
-				<Link to='/' className="back-to-list-button"><p>Return ot the List</p></Link>
+				<Link to='/' className={classes["back-to-list-button"]}><p>Return ot the List</p></Link>
 			</div>
 		)
 	}
 }
 
-export default ItemOpened
+export default Page

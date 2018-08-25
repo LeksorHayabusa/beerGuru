@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-import ItemOpened from './ItemOpened'
 import * as BeerAPI from './BeerAPI'
-import ItemList from './ItemList'
-import './App.css';
+import Page from './Page/Page' 
+import List from './List/List'
+import classes from './App.css'
 
 class App extends Component {
   state = {
     items: [],
     page: null,
-    per_page:20,
+    per_page:50,
     similarList: {
       shownNumber: 3,
       items: []
@@ -123,13 +123,13 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-				<h1 className="main-header">
-          <span className="beer-part">BEER</span>
-          <span className="guru-part">GURU</span>
+      <div className={classes.container}>
+				<h1 className={classes["main-header"]}>
+          <span className={classes.beer}>BEER</span>
+          <span>GURU</span>
         </h1>
         <Route path='/details/' render={ () => (
-          <ItemOpened
+          <Page
             mainState={ this.state }
             openItem={ this.openItem }
             showSimilarItems={ this.showSimilarItems }
@@ -138,7 +138,7 @@ class App extends Component {
           />
         )}/> 
         <Route exact path='/' render={ () => (
-          <ItemList
+          <List
             mainState={ this.state }
             openItem={ this.openItem }
             downloadNextItems={ this.downloadNextItems }
