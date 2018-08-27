@@ -27,7 +27,8 @@ export const getAll = (page, per_page) => {
 }
 
 export const getSingleBeer = (id) => {
-	const query = `${api}/${id}`;
+	let query;
+	(id === 'random') ? query = `${api}/random` : query = `${api}/${id}`;
 	return fetch(query)
 		.then(res => {
 			if(handleStatus(res)) throw handleStatus(res);

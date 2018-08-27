@@ -1,52 +1,86 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
+import * as BeerAPI from './../BeerAPI'
 import SimilarList from './../SimilarList/SimilarList'
 import classes from './Page.css'
 
 class Page extends Component {
+	state = {
+    isContentLoading: false,
+    isError: false,
+    itemID: null,
+    item: {},
+  }
 
-	getAddressItemID = () => {
-		return window.location.pathname.match(/\d+/)[0]
+  checkItemError = (element) => {
+    if(element instanceof Error || element === undefined) {
+      console.log(element)
+      if(element instanceof Error && element.statusCode === 429)
+        alert('you have reached query limits. Try later in an hour');
+      this.setState({
+        isError: true,
+				isContentLoading: false
+      })
+      return true
+    }
+  }
+
+  downloadSingleItem = () => {
+    const itemID = this.state.itemID;
+    this.setState({
+      isContentLoading: true,
+      isError: false
+    })
+    BeerAPI.getSingleBeer(itemID)
+      .then(item => {
+        if(this.checkItemError(item)) return;
+        this.setState({
+          isContentLoading: false,
+          item: item
+        })
+      })
+  }
+  
+	item = (itemID) => {
+		this.setState(
+			{ itemID: itemID }, 
+			() => this.downloadSingleItem()
+		)
 	}
 
-	isLoadedItemID = () => {
-		const { openedItemID } = this.props.mainState;
-		return Boolean( openedItemID )
-	}
-
-	checkProperImage = () => {
-		const { image_url } = this.props.mainState.openedItem;
-		return !(/keg\.png/i .test(image_url))
-	}
+	addressItemID = () => 
+		window.location.pathname.match(/\d+/)[0]
 
 	componentDidMount = () => {
-		const { openItem, downloadNextItems } = this.props;
-		if(this.isLoadedItemID) {
-			downloadNextItems()
-			openItem(this.getAddressItemID())
-		}
+		this.item(this.addressItemID())
+		window.addEventListener('hashchange', ()=>console.log('hello hesh', false))
+	}
+
+	componentWillUnmount = () => {
+		window.removeEventListener('hashchange')
 	}
 	
 
 	render() {
-		const { 
-			openedItem } = this.props.mainState,
-		{	image_url,
+		const {	
+			image_url,
 			name,
 			tagline,
 			ibu,
 			abv,
 			ebc,
 			description,
-			food_pairing } = openedItem;
+			food_pairing } = this.state.item,
+			image = !(/keg\.png/i .test(image_url));
+		
 		return (
 			<div className={classes.top}>
 				<div className={classes.overview}>
 					<div 
-						className={this.checkProperImage() ? classes.cover : classes.keg_cover}
+						className={image ? classes.cover : classes.keg_cover}
 						style={{
 							width: '200px',
-							height: this.checkProperImage() ? '450px' : '300px',
+							height: image ? '450px' : '300px',
 							backgroundImage: `url("${image_url}")`
 						}} 
 						>
@@ -71,10 +105,7 @@ class Page extends Component {
 					</div>
 				</div>
 				<SimilarList 
-					openItem={ this.props.openItem }
-					mainState={ this.props.mainState }
-					showSimilarItems={ this.props.showSimilarItems }
-					changeSimilarItems={ this.props.changeSimilarItems }
+					changedAdressItemID = { this.changedAdressItemID }
 				/>
 				<Link to='/' className={classes["back-to-list-button"]}><p>Return ot the List</p></Link>
 			</div>

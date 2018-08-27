@@ -1,44 +1,86 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
+import * as BeerAPI from './../BeerAPI'
 import Thumbnail from './../Thumbnail/Thumbnail'
 import Loading from './../Loading/Loading'
 import classes from './SimilarList.css'
 
 class SimilarList extends Component {
-
-	componentDidMount = () => {
-		this.props.showSimilarItems()
+	state = {
+		isContentLoading: true,
+		isError: false,
+		quantity: 3,
+		items: []
 	}
-	
-	componentWillUnmount = () => {
-		//clear similar list
-		this.props.changeSimilarItems([])
+
+  checkItemError = (element) => {
+    if(element instanceof Error || element === undefined) {
+      console.log(element)
+      if(element instanceof Error && element.statusCode === 429)
+        alert('you have reached query limits. Try later in an hour');
+      this.setState({
+        isError: true,
+				isContentLoading: false
+      })
+      return true
+    }
+  }
+		
+	randomItem = () => {
+		this.setState({
+			isContentLoading: true,
+			isError: false
+		})
+		BeerAPI.getSingleBeer('random')
+		.then(item => {
+			if(this.checkItemError(item)) return;
+				const downloadItems = [...this.state.items]
+				downloadItems.push(item)
+				this.setState({
+					isContentLoading: false,
+					items: downloadItems
+				})
+			})
+	}
+		
+	items = () => {
+		this.setState({items: []})
+		let i = this.state.quantity;
+		while(i--) {
+			this.randomItem()
+		}
+	}
+  
+	componentDidMount = () => {
+		this.items()
 	}
 
 	render() {
+		console.log(this.state.items);
 		const {
-			isListLoading } = this.props.mainState,
-			similarList = this.props.mainState.similarList.items,
-			loading = isListLoading ? Loading : null
+			isListLoading,
+			items } = this.state,
+			showedItems = 
+				<div>
+					<h4 className={classes.title}>You might also like:</h4>
+					<div className={classes.list}>
+						{ items.length > 0 ? items.map(item => (
+							<div 
+								className={classes.item}
+								key={ item.id }
+							>
+								<Link to={`/details/:${item.id}`}>
+									<Thumbnail item={ item }/>
+								</Link>
+							</div>
+						)) : <div>something went wrong, retry one more time</div>}
+					</div>
+				</div>;
+		const	content = isListLoading ? Loading : showedItems;
 		return (
-			<div className={classes.container}>
-				{ loading }
-				<h4 className={classes.title}>You might also like:</h4>
-				<div className={classes.list} id="similarList">
-					{ similarList.length > 0 ? similarList.map(item => (
-						<div 
-							className={classes.item}
-							key={ item.id }
-							onClick={ () => {
-								this.props.openItem(item.id)} }
-						>
-							<Link to={`/details/:${item.id}`}>
-								<Thumbnail item={ item }/>
-							</Link>
-						</div>
-					)) : <div>something went wrong, retry one more time</div>}
+				<div className={classes.container}>
+					{content}
 				</div>
-			</div>
 		)
 	}
 }
