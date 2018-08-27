@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-import Page from './Page/Page' 
-import List from './List/List'
+import Page from './../Components/Page/Page' 
+import List from './../Components/List/List'
 import classes from './App.css'
 
 class App extends Component {
@@ -15,18 +15,10 @@ class App extends Component {
         </h1>
         <Route path='/details/' render={ () => (
           <Page
-            mainState={ this.state }
-            openItem={ this.openItem }
-            showSimilarItems={ this.showSimilarItems }
-            downloadNextItems={ this.downloadNextItems }
-            changeSimilarItems={ this.changeSimilarItems }
           />
         )}/> 
         <Route exact path='/' render={ () => (
           <List
-            mainState={ this.state }
-            openItem={ this.openItem }
-            downloadNextItems={ this.downloadNextItems }
           />
         )}/>
       </div>

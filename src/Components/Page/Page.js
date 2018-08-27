@@ -1,7 +1,7 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
-import * as BeerAPI from './../BeerAPI'
-import SimilarList from './../SimilarList/SimilarList'
+import * as BeerAPI from '../BeerAPI'
+import SimilarList from './SimilarList/SimilarList'
 import classes from './Page.css'
 
 class Page extends Component {
@@ -10,7 +10,7 @@ class Page extends Component {
     isError: false,
     itemID: null,
     item: {},
-  }
+	}
 
   checkItemError = (element) => {
     if(element instanceof Error || element === undefined) {
@@ -53,13 +53,13 @@ class Page extends Component {
 
 	componentDidMount = () => {
 		this.item(this.addressItemID())
-		window.addEventListener('hashchange', ()=>console.log('hello hesh', false))
+		window.addEventListener('hashchange', () => console.log('hello hesh'), false)
+		window.onpopstate = () => console.warn('hello location')
 	}
 
 	componentWillUnmount = () => {
-		window.removeEventListener('hashchange')
+		window.removeEventListener('hashchange', () => console.log('hello hesh'))
 	}
-	
 
 	render() {
 		const {	

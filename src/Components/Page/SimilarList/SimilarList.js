@@ -1,8 +1,8 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
-import * as BeerAPI from './../BeerAPI'
-import Thumbnail from './../Thumbnail/Thumbnail'
-import Loading from './../Loading/Loading'
+import * as BeerAPI from './../../BeerAPI'
+import Thumbnail from './../../Thumbnail/Thumbnail'
+import Loading from './../../Loading/Loading'
 import classes from './SimilarList.css'
 
 class SimilarList extends Component {

@@ -35,7 +35,7 @@ class List extends Component {
   	this.setState({ 
       isLoadingContent: true,
       isError: false
-    })
+		})
     BeerAPI.getAll(page, per_page)
       .then(items => {
         if(this.checkItemError(items)) return;
@@ -65,8 +65,9 @@ class List extends Component {
 	}
 
 	componentDidMount = () => {
-    this.downloadNextItems()
-		window.addEventListener('scroll', this.handleScroll)
+		const { isEndOfList } = this.state;
+    this.downloadNextItems();
+		( !isEndOfList && window.addEventListener('scroll', this.handleScroll))
 	}
 	
 	componentWillUnmount = () => {
