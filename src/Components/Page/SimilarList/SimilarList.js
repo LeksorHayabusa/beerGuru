@@ -7,7 +7,7 @@ import classes from './SimilarList.css'
 
 class SimilarList extends Component {
 	state = {
-		isContentLoading: true,
+		isContentLoading: false,
 		isError: false,
 		quantity: 3,
 		items: []
@@ -30,7 +30,8 @@ class SimilarList extends Component {
 		this.setState({
 			isContentLoading: true,
 			isError: false
-		})
+		},
+		() =>
 		BeerAPI.getSingleBeer('random')
 		.then(item => {
 			if(this.checkItemError(item)) return;
@@ -41,14 +42,17 @@ class SimilarList extends Component {
 					items: downloadItems
 				})
 			})
+		)
 	}
 		
 	items = () => {
-		this.setState({items: []})
-		let i = this.state.quantity;
-		while(i--) {
-			this.randomItem()
-		}
+		this.setState({items: []},
+		() => {
+			let i = this.state.quantity;
+			while(i--) {
+				this.randomItem()
+			}
+		})
 	}
   
 	componentDidMount = () => {
@@ -56,30 +60,37 @@ class SimilarList extends Component {
 	}
 
 	render() {
-		console.log(this.state.items);
 		const {
-			isListLoading,
+			isContentLoading,
 			items } = this.state,
+			loading = isContentLoading ? <Loading/> : null,
 			showedItems = 
 				<div>
-					<h4 className={classes.title}>You might also like:</h4>
+					<h4 className={classes.title}>You might like:</h4>
 					<div className={classes.list}>
-						{ items.length > 0 ? items.map(item => (
+						{ items.map(item => (
 							<div 
 								className={classes.item}
 								key={ item.id }
 							>
-								<Link to={`/details/:${item.id}`}>
+								<Link 
+									to={`/details/:${item.id}`}
+									onClick={ () => {
+										this.items()
+										this.props.newItem(item.id)
+									}}
+								>
 									<Thumbnail item={ item }/>
 								</Link>
 							</div>
-						)) : <div>something went wrong, retry one more time</div>}
+						))}
 					</div>
 				</div>;
-		const	content = isListLoading ? Loading : showedItems;
+		// const	content = isListLoading ? Loading : null;
 		return (
-				<div className={classes.container}>
-					{content}
+			<div className={classes.container}>
+					{ loading }
+					{showedItems}
 				</div>
 		)
 	}

@@ -26,7 +26,7 @@ class Page extends Component {
   }
 
   downloadSingleItem = () => {
-    const itemID = this.state.itemID;
+		const itemID = this.state.itemID;
     this.setState({
       isContentLoading: true,
       isError: false
@@ -41,24 +41,22 @@ class Page extends Component {
       })
   }
   
-	item = (itemID) => {
+	item = (id) => {
+		!id ? id = window.location.pathname.match(/\d+/)[0] : null;
 		this.setState(
-			{ itemID: itemID }, 
+			{ itemID: id }, 
 			() => this.downloadSingleItem()
 		)
 	}
 
-	addressItemID = () => 
-		window.location.pathname.match(/\d+/)[0]
-
 	componentDidMount = () => {
-		this.item(this.addressItemID())
-		window.addEventListener('hashchange', () => console.log('hello hesh'), false)
-		window.onpopstate = () => console.warn('hello location')
+		this.item()
+		//window.addEventListener('hashchange', () => console.log('hello hesh'), false)
+		//window.onpopstate = () => console.warn('hello location')
 	}
 
 	componentWillUnmount = () => {
-		window.removeEventListener('hashchange', () => console.log('hello hesh'))
+		//window.removeEventListener('hashchange', () => console.log('hello hesh'))
 	}
 
 	render() {
@@ -72,12 +70,11 @@ class Page extends Component {
 			description,
 			food_pairing } = this.state.item,
 			image = !(/keg\.png/i .test(image_url));
-		
 		return (
 			<div className={classes.top}>
 				<div className={classes.overview}>
 					<div 
-						className={image ? classes.cover : classes.keg_cover}
+						className={image ? classes.cover : classes['keg-cover']}
 						style={{
 							width: '200px',
 							height: image ? '450px' : '300px',
@@ -105,7 +102,8 @@ class Page extends Component {
 					</div>
 				</div>
 				<SimilarList 
-					changedAdressItemID = { this.changedAdressItemID }
+					newItem={ this.item }
+
 				/>
 				<Link to='/' className={classes["back-to-list-button"]}><p>Return ot the List</p></Link>
 			</div>

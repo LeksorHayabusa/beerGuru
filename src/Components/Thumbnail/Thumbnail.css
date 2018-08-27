@@ -2,6 +2,7 @@
 .top { 
 	background-color: #fff;
 	height: 270px;
+	width: 200px;
 	border-radius: 5px;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 	transition: 0.3s;
@@ -9,7 +10,6 @@
 	flex-flow: column;
 	align-items: center;
 	justify-content: center;
-	width: 200px;
 }
 
 .top:hover {
