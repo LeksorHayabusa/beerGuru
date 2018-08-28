@@ -15,7 +15,7 @@ const Thumbnail = (props) => {
 			backgroundImage: `url("${image_url}")`
 		};
 	return (
-		<div className={classes.top}>
+		<div className={classes.Thumbnail}>
 			<div 
 				className={cover}
 				style={style} 

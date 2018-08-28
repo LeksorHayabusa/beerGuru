@@ -9,7 +9,7 @@ class List extends Component {
 	state = {
 		items: [],
     page: null,
-    per_page:50,
+    per_page:10,
     isLoadingContent: false,
     isError: false,
     isEndOfList: false
@@ -42,8 +42,8 @@ class List extends Component {
         if(items.length !== 0) storedItems = storedItems.concat(items);
         //if the queries reached the end of list
         if(items.length === 0) {
-        page--;
-        this.setState({ isEndOfList: true })
+					page--;
+					this.setState({ isEndOfList: true })
         }
         this.setState({ 
           items: storedItems,
@@ -83,26 +83,24 @@ class List extends Component {
 
 		const errorMessage = <p>An error occured getting data</p>;
 		const itemList =
-			<div>
-				<div className={classes.list}>
-					{items.map(item => (
-						<div
-							className={classes.item}
-							key={ item.id }
-						>
-							<Link to={`/details/:${item.id}`}>
-								<Thumbnail item={ item }/>
-							</Link>
-						</div>
-					))}
-				</div>
-			</div>;
+			<div className={classes['item-list']}>
+				{items.map(item => (
+					<div
+						className={classes.item}
+						key={ item.id }
+					>
+						<Link to={`/details/:${item.id}`}>
+							<Thumbnail item={ item }/>
+						</Link>
+					</div>
+				))}
+			</div>
 		const listEnd = isEndOfList ? <p>List End</p> : null,
 			content = !isError ? itemList : errorMessage,
 			loading = isLoadingContent ? <Loading/> : null;
 		//handling errors while fetching contents
 		return (
-			<div className={classes.container}>
+			<div className={classes.List}>
 				{ content }
 				{ loading }
 				{ listEnd }

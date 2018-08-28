@@ -2,6 +2,7 @@ import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
 import * as BeerAPI from '../BeerAPI'
 import SimilarList from './SimilarList/SimilarList'
+import Description from './Description/Description'
 import classes from './Page.css'
 
 class Page extends Component {
@@ -51,60 +52,13 @@ class Page extends Component {
 
 	componentDidMount = () => {
 		this.item()
-		//window.addEventListener('hashchange', () => console.log('hello hesh'), false)
-		//window.onpopstate = () => console.warn('hello location')
-	}
-
-	componentWillUnmount = () => {
-		//window.removeEventListener('hashchange', () => console.log('hello hesh'))
 	}
 
 	render() {
-		const {	
-			image_url,
-			name,
-			tagline,
-			ibu,
-			abv,
-			ebc,
-			description,
-			food_pairing } = this.state.item,
-			image = !(/keg\.png/i .test(image_url));
 		return (
-			<div className={classes.top}>
-				<div className={classes.overview}>
-					<div 
-						className={image ? classes.cover : classes['keg-cover']}
-						style={{
-							width: '200px',
-							height: image ? '450px' : '300px',
-							backgroundImage: `url("${image_url}")`
-						}} 
-						>
-					</div>
-					<div className={classes['text-container']}>
-						<h3 className={classes.title}>{ name }</h3>
-						<div className={classes.slogan}>{ tagline }</div>
-						<div className={classes['feature-container']}>
-							<div className={classes['features-name']}><strong>IBU</strong>: {ibu}</div>
-							<div className={classes['features-name']}><strong>ABV</strong>: {abv}%</div>
-							<div className={classes['features-name']}><strong>EBC</strong>: {ebc}</div>
-						</div>
-						<div className={classes.description}>{ description }</div>
-						<div className={classes['pairing-list']}>
-							<p>Best served with:</p>
-							<div className={classes["pairing-list"]}>
-								{food_pairing ? food_pairing.map(el => 
-									<div key={ el }>{ el }</div>
-								) : 'no specified food'}
-							</div>
-						</div>
-					</div>
-				</div>
-				<SimilarList 
-					newItem={ this.item }
-
-				/>
+			<div className={classes.Page}>
+				<Description state={this.state}/>
+				<SimilarList newItem={ this.item }/>
 				<Link to='/' className={classes["back-to-list-button"]}><p>Return ot the List</p></Link>
 			</div>
 		)

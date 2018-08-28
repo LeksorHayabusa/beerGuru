@@ -1,23 +1,17 @@
 
-.list { 
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-around;
-}
-
-.container {
+.List {
 	display: flex;
 	flex-flow: column;
 	align-items: center;
 	justify-content: center;
 }
 
-.item {
-	margin-bottom: 40px;
+.List .item-list { 
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
 }
 
-@media only screen and (min-width: 1001px) {
-.container {
-		width: 900px;		
-	}
+.List .item {
+	margin-bottom: 40px;
 }

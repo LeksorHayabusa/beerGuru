@@ -88,7 +88,7 @@ class SimilarList extends Component {
 				</div>;
 		// const	content = isListLoading ? Loading : null;
 		return (
-			<div className={classes.container}>
+			<div className={classes.SimilarList}>
 					{ loading }
 					{showedItems}
 				</div>

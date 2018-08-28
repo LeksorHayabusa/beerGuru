@@ -8,7 +8,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className={classes.container}>
+      <div className={classes.App}>
 				<h1 className={classes["main-header"]}>
           <span className={classes.beer}>BEER</span>
           <span>GURU</span>

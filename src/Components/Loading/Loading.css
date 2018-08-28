@@ -1,14 +1,10 @@
 
-
 .loading {
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: center;
 	animation: loading-spin infinite 5s linear;
-}
-
-#itemList .loading {
-	margin-bottom: 20px;
+	margin: 20px auto;
 }
 
 @keyframes loading-spin {

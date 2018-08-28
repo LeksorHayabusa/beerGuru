@@ -1,25 +1,29 @@
 
-.list { 
+.SimilarList .list { 
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
 }
 
+.SimilarList .title {
+	margin-left: 10%;
+}
+
 @media only screen and (min-width: 1001px) {
 
-	.list {
+	.SimilarList .list {
 		width: 900px;
 	}
 }
 
 @media only screen and (max-width: 1000px) {
 	
-	.container {
+	.SimilarList {
 		flex-basis: 60%;
 		flex-shrink: 2;
 	}
 
-	.item {
+	.SimilarList .item {
 		margin: 0 10px 20px 10px;
 	}
 }

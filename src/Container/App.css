@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-.container {
+.App {
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -37,11 +37,8 @@ a {
 	right: 0;
 }
 
-.content-box {
-	width: 800px;
-	margin: 10% auto;
-	background-color: #fff;
-	min-height: 300px;
-	animation-duration: 0.5s;
-	box-shadow:  0 0 30px rgba(0,0,0,0.16);
+@media only screen and (min-width: 1001px) {
+.App {
+		width: 900px;
+	}
 }
