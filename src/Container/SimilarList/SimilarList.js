@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import * as BeerAPI from './../../BeerAPI'
-import Thumbnail from './../../Thumbnail/Thumbnail'
-import Loading from './../../Loading/Loading'
+import * as BeerAPI from '../../BeerAPI'
+import Thumbnail from '../../Components/Thumbnail/Thumbnail'
+import Loading from '../../Components/Loading/Loading'
 import classes from './SimilarList.css'
-import Aux from '../../../hoc/Aux'
-import WithClass from '../../../hoc/WithClass'
+import Aux from '../../hoc/Aux'
+import WithClass from '../../hoc/WithClass'
+
+// export const ThumbContext = React.createContext(false)
 
 class SimilarList extends Component {
 	state = {
@@ -15,7 +17,8 @@ class SimilarList extends Component {
 		isError: false,
 		quantity: 3,
 		fetchedItems: [],
-		items: []
+		items: [],
+		loadingItem: null
 	}
 
 	checkItemError = (element) => {
@@ -72,7 +75,7 @@ class SimilarList extends Component {
 			// items: []
 		},
 			() => {
-// deside how many items to be downloaded
+				// deside how many items to be downloaded
 				let i = this.state.quantity - alreadyFetched.length;
 				console.log('hello from i', i);
 				while (i--) {
@@ -111,27 +114,29 @@ class SimilarList extends Component {
 		this.renderedDownloadedItems()
 		return (
 			<Aux>
-				<h4 className={classes.title}>You might like:</h4>
-				{loading}
-				{!isItemsLoading ? <div className={classes.list}>
-					{items.map(item => (
-						<div
-							className={classes.item}
-							key={item.id}
-						>
-							<Link
-								to={`/details/:${item.id}`}
-								onClick={() => {
-									console.log('hello from id', item.id)
-									this.downloadedItems(item.id)
-									this.props.newItem(item)
-								}}
+				{/* <ThumbContext.Provider value={this.state.loadingItem}> */}
+					<h4 className={classes.title}>You might like:</h4>
+					{loading}
+					{!isItemsLoading ? <div className={classes.list}>
+						{items.map(item => (
+							<div
+								className={classes.item}
+								key={item.id}
 							>
-								<Thumbnail item={item} />
+								<Link
+									to={`/details/:${item.id}`}
+									onClick={() => {
+										console.log('hello from id', item.id)
+										this.downloadedItems(item.id)
+										this.props.newItem(item)
+									}}
+								>
+									<Thumbnail item={item} />
 							</Link>
 						</div>
 					))}
 				</div> : null}
+				{/* </ThumbContext.Provыider> */}
 			</Aux>
 		)
 	}
