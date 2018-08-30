@@ -5,23 +5,23 @@
 	margin-left: auto;
 }
 
-a {
+.App a {
 	text-decoration: none;
 	color:#333;
 }
 
-.main-header {
+.App .main-header {
 	font-weight: 700;
 	margin-left: 20px;
 	color: #606060;
 }
 
-.main-header .beer {
+.App .main-header .beer {
 	color: #fd8e04;
 	
 }
 
-.overlay {
+.App .overlay {
 	display: none;
 	position: fixed;
 	z-index: 9999;
@@ -29,7 +29,7 @@ a {
 	animation-duration: 0.4s;
 }
 
-.overlay .open {
+.App .overlay .open {
 	display: block;
 	top: 0;
 	bottom: 0;

@@ -5,7 +5,7 @@ import loadingImg from './circle-arrow.svg';
 const Loading = () => {
 	return (
 		<div
-			className={classes.loading}
+			className={classes.icon}
 			style={{
 				width: '50px',
 				height: '50px',

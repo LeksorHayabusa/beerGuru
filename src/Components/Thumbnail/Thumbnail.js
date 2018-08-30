@@ -2,13 +2,20 @@ import React, { Component} from 'react'
 import classes from './Thumbnail.css'
 
 const Thumbnail = (props) => {
+	const dummy = {
+		image_url: '',
+		name: '',
+		tagline: ''
+	}
+
 	const { 
 		image_url, 
 		name, 
-		tagline 
-			} = props.item,
+		tagline } = props.item,
 		image = !(/keg\.png/i .test(image_url)),
-		cover = image ? classes.cover : classes['keg-cover'],
+		{ dummy_name, 
+			dummy_tagline } = dummy,
+		cover = image ? classes['bottle-cover'] : classes['keg-cover'],
 		style = {
 			width: '150px',
 			height:  image ? '190px' : '180px',

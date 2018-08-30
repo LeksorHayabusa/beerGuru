@@ -11,11 +11,11 @@ const Description = (props) => {
 		ebc,
 		description,
 		food_pairing } = props.state.item,
-		image = !(/keg\.png/i .test(image_url));
-	return (
-		<div className={classes.Description}>
-			<div 
-				className={image ? classes.cover : classes['keg-cover']}
+		//test what is a kind of image cover for bottle or keg
+		image = !(/keg\.png/i .test(image_url)),
+		imageContainer = 
+			<div
+				className={image ? classes['bottle-cover'] : classes['keg-cover']}
 				style={{
 					width: '200px',
 					height: image ? '450px' : '300px',
@@ -23,6 +23,9 @@ const Description = (props) => {
 				}} 
 				>
 			</div>
+	return (
+		<div className={classes.Description}>
+			{ imageContainer }
 			<div className={classes['text-container']}>
 				<h3 className={classes.title}>{ name }</h3>
 				<div className={classes.slogan}>{ tagline }</div>

@@ -17,13 +17,13 @@
 	background-color: rgb(249, 255, 217);
 }
 
-.Thumbnail .cover,
+.Thumbnail .bottle-cover,
 .Thumbnail .keg-cover {
 	background-position: center;
 	background-repeat: no-repeat;
 	margin-top: 15px;
 }
-.Thumbnail .cover {
+.Thumbnail .bottle-cover {
 	background-size: 35%;
 }
 

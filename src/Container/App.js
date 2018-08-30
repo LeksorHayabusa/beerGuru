@@ -3,12 +3,14 @@ import { Route } from 'react-router-dom'
 import Page from './../Components/Page/Page' 
 import List from './../Components/List/List'
 import classes from './App.css'
+import Aux from '../hoc/Aux'
+import WithClass from '../hoc/WithClass'
 
 class App extends Component {
 
   render() {
     return (
-      <div className={classes.App}>
+      <Aux>
 				<h1 className={classes["main-header"]}>
           <span className={classes.beer}>BEER</span>
           <span>GURU</span>
@@ -21,9 +23,9 @@ class App extends Component {
           <List
           />
         )}/>
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default WithClass(App, classes.App)
