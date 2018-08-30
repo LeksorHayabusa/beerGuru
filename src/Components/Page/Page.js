@@ -1,5 +1,6 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import * as BeerAPI from '../BeerAPI'
 import SimilarList from './SimilarList/SimilarList'
 import Description from './Description/Description'
@@ -72,6 +73,11 @@ class Page extends Component {
 			</Aux>
 		)
 	}
+}
+
+Page.propTypes= {
+  itemID: PropTypes.number,
+  item: PropTypes.object
 }
 
 export default WithClass(Page, classes.Page)

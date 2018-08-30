@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import * as BeerAPI from './../../BeerAPI'
 import Thumbnail from './../../Thumbnail/Thumbnail'
 import Loading from './../../Loading/Loading'
@@ -64,13 +65,14 @@ class SimilarList extends Component {
 			const removed = alreadyFetched.splice(index, 1)
 			console.log('hello from index', alreadyFetched, index, removed);
 		}
-		// here is we download new item
+		// here is we download new items
 		this.setState({
 			isItemsLoading: true,
 			fetchedItems: alreadyFetched
 			// items: []
 		},
 			() => {
+// deside how many items to be downloaded
 				let i = this.state.quantity - alreadyFetched.length;
 				console.log('hello from i', i);
 				while (i--) {
@@ -133,6 +135,15 @@ class SimilarList extends Component {
 			</Aux>
 		)
 	}
+}
+
+SimilarList.propTypes = {
+	isItemFetching: PropTypes.bool,
+	isItemsLoading: PropTypes.bool,
+	isError: PropTypes.bool,
+	quantity: PropTypes.number,
+	fetchedItems: PropTypes.array,
+	items: PropTypes.array
 }
 
 export default WithClass(SimilarList, classes.SimilarList)
