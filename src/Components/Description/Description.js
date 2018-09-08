@@ -1,7 +1,7 @@
 import React, { Component} from 'react'
 import classes from './Description.css'
 
-const Description = (props) => {
+const description = (props) => {
 	const {	
 		image_url,
 		name,
@@ -48,4 +48,4 @@ const Description = (props) => {
 	)
 }
 
-export default Description
+export default description

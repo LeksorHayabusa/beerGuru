@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import classes from './Loading.css'
-import loadingImg from './circle-arrow.svg';
+import loadingImg from '../assets/imgs/circle-arrow.svg';
 
-const Loading = () => {
+const loading = () => {
 	return (
 		<div
 			className={classes.icon}
@@ -42,4 +42,4 @@ const Loading = () => {
 	}
 } */
 
-export default Loading
+export default loading
