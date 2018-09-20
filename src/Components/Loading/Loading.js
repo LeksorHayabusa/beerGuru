@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Loading.css'
-import loadingImg from '../assets/imgs/circle-arrow.svg';
+import loadingImg from '../../assets/imgs/circle-arrow.svg';
 
 const loading = () => {
 	return (

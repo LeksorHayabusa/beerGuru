@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-// import { ThumbContext } from './../Page/SimilarList/SimilarList'
+import React from 'react'
 import classes from './Thumbnail.css'
 
 const thumbnail = (props) => {
@@ -17,7 +16,6 @@ const thumbnail = (props) => {
 		};
 	return (
 		<div className={classes.Thumbnail}>
-			{/* <ThumbContext.Consumer> */}
 				<div
 					className={cover}
 					style={style}
@@ -25,7 +23,6 @@ const thumbnail = (props) => {
 				</div>
 				<div className={classes.title}>{name}</div>
 				<div className={classes.slogan}>{tagline}</div>
-				{/* </ThumbContext.Consumer> */}
 			</div>
 	)
 }
