@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
-import Page from './../Container/Page/Page'
-import List from './../Container/List/List'
-import classes from './App.css'
-import Aux from '../hoc/Aux'
-import WithClass from '../hoc/WithClass'
-
-// export const ModalContext = React.createContext()
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import Page from './../Container/Page/Page';
+import List from './../Container/List/List';
+import Layout from './../Container/Layout/Layout';
+import classes from './App.css';
+import WithClass from '../hoc/WithClass';
 
 class App extends Component {
 
@@ -26,20 +24,21 @@ class App extends Component {
   render() {
     const ModalContent = this.state.content;
     return (
-        <Aux>
-      {/* <ModalContext.Provider> */}
-          <h1 className={classes["main-header"]}>
-            <span className={classes.beer}>BEER</span>
-            <span>GURU</span>
-          </h1>
+      <Layout>
+        <h1 className={classes["main-header"]}>
+          <span className={classes.beer}>BEER</span>
+          <span>GURU</span>
+        </h1>
+        <modal>
           <Route path='/details/' render={() => (
             <Page />
           )} />
-          <Route path='/' render={() => (
-            <List />
-          )} />
-      {/* </ModalContext.Provider> */}
-        </Aux>
+        </modal>
+        <Route exact path='/' render={() => (
+          <List />
+        )} />
+      {/* <BeerReviewer/> */}
+      </Layout>
     );
   }
 }

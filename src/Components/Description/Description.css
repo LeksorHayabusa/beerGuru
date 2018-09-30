@@ -31,6 +31,7 @@
 	margin-bottom: 0.5em;
 	color:#333
 }
+
 .Description .feature-container {
 	display: flex;
 	flex-flow: row nowrap;
@@ -61,7 +62,7 @@
 	text-indent: 10px;
 }
 
-.Description .pairing-list > div:before {
+.Description .pairing-list li:before {
 	content: '- ';
 }
 

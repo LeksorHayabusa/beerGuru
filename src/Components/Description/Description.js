@@ -1,4 +1,4 @@
-import React, { Component} from 'react'
+import React from 'react'
 import classes from './Description.css'
 
 const Description = (props) => {
@@ -37,11 +37,11 @@ const Description = (props) => {
 				<div className={classes.description}>{ description }</div>
 				<div className={classes['pairing-list']}>
 					<p>Best served with:</p>
-					<div className={classes["pairing-list"]}>
+					<ul className={classes["pairing-list"]}>
 						{food_pairing ? food_pairing.map(el => 
-							<div key={ el }>{ el }</div>
+							<li key={ el }>{ el }</li>
 						) : 'no specified food'}
-					</div>
+					</ul>
 				</div>
 			</div>
 		</div>

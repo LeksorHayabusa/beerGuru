@@ -1,3 +1,8 @@
+.SimilarList {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+}
 
 .SimilarList .list { 
 	display: flex;
@@ -5,8 +10,8 @@
 	justify-content: space-around;
 }
 
-.SimilarList .title {
-	margin-left: 10%;
+.SimilarList .loading {
+	
 }
 
 @media only screen and (min-width: 1001px) {

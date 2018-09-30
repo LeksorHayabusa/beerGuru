@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import * as BeerAPI from '../../BeerAPI'
-import Thumbnail from '../../Components/Thumbnail/Thumbnail'
-import Loading from '../../Components/Loading/Loading'
-import classes from './SimilarList.css'
-import Aux from '../../hoc/Aux'
-import WithClass from '../../hoc/WithClass'
-
-// export const ThumbContext = React.createContext(false)
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Thumbnail from '../../Components/Thumbnail/Thumbnail';
+import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import classes from './SimilarList.css';
+import Aux from '../../hoc/Aux';
+import WithClass from '../../hoc/WithClass';
+import axios_beerApi from '../../APIs/beerApi';
+import { statusHandler, itemErrorChecker } from '../../ErrorHandler';
 
 class SimilarList extends Component {
 	state = {
@@ -20,19 +19,6 @@ class SimilarList extends Component {
 		items: [],
 		loadingItem: null
 	}
-
-	checkItemError = (element) => {
-		if (element instanceof Error || element === undefined) {
-			console.log(element)
-			if (element instanceof Error && element.statusCode === 429)
-				alert('you have reached query limits. Try later in an hour');
-			this.setState({
-				isError: true,
-				isItemFetching: false
-			})
-			return true
-		}
-	}
 	//download random items
 	randomItem = (index) => {
 		//we provide index to know a place to put a new item
@@ -40,12 +26,17 @@ class SimilarList extends Component {
 			isItemFetching: true,
 			isError: false
 		},
-			() =>
-				BeerAPI.getSingleBeer('random')
+			() => {
+				const query = '/random';
+				axios_beerApi.get(query)
+					.then(res => {
+						if (statusHandler(res)) throw statusHandler(res);
+						return res.data.shift()
+					})
+					.catch(er => er)
 					.then(item => {
-						if (this.checkItemError(item)) return;
-						const downloadItems = [...this.state.fetchedItems]
-						console.log('hello from random func', downloadItems);
+						if (itemErrorChecker(item)) return;
+						const downloadItems = [...this.state.fetchedItems];
 						// here is we test what to do with new item,
 						// to splice it or push into the array
 						(index) ? downloadItems.splice(index, 0, item) : downloadItems.push(item)
@@ -53,7 +44,9 @@ class SimilarList extends Component {
 							isItemFetching: false,
 							fetchedItems: downloadItems
 						})
-					}))
+					})
+			}
+		)
 	}
 	// download and store items
 	downloadedItems = (id) => {
@@ -62,11 +55,9 @@ class SimilarList extends Component {
 		let alreadyFetched = [],
 			index;
 		if (id) {
-			console.log('hello from download items');
 			alreadyFetched = [...this.state.fetchedItems];
 			index = alreadyFetched.findIndex((e) => e.id === id);
-			const removed = alreadyFetched.splice(index, 1)
-			console.log('hello from index', alreadyFetched, index, removed);
+			alreadyFetched.splice(index, 1);
 		}
 		// here is we download new items
 		this.setState({
@@ -77,15 +68,14 @@ class SimilarList extends Component {
 			() => {
 				// deside how many items to be downloaded
 				let i = this.state.quantity - alreadyFetched.length;
-				console.log('hello from i', i);
 				while (i--) {
 					this.randomItem(index)
 				}
 			})
 	}
 
-	renderedDownloadedItems = () => {
-		//testing whether the loading is finished and items need to be rendered
+	renderedItems = () => {
+		//verification whether the loading is finished and items need to be rendered
 		const {
 			fetchedItems,
 			isItemsLoading,
@@ -97,46 +87,41 @@ class SimilarList extends Component {
 				isItemsLoading: false,
 				items: fetched
 			})
-			console.log('hello from render setState', fetched, this.state.items);
 		}
 	}
 
 	componentDidMount = () => {
-		// this.prerenderedItems()
 		this.downloadedItems()
 	}
 
 	render() {
 		const {
 			isItemsLoading,
-			items } = this.state,
-			loading = isItemsLoading ? <Loading /> : null;
-		this.renderedDownloadedItems()
+			items } = this.state;
+			const loading = isItemsLoading ? <LoadingSpinner /> : null;
+		this.renderedItems()
 		return (
 			<Aux>
-				{/* <ThumbContext.Provider value={this.state.loadingItem}> */}
-					<h4 className={classes.title}>You might like:</h4>
-					{loading}
-					{!isItemsLoading ? <div className={classes.list}>
-						{items.map(item => (
-							<div
-								className={classes.item}
-								key={item.id}
+				<h4 className={classes.title}>You might like:</h4>
+				{loading}
+				{!isItemsLoading ? <ul className={classes.list}>
+					{items.map(item => (
+						<li
+							className={classes.item}
+							key={item.id}
+						>
+							<Link
+								to={`/details/:${item.id}`}
+								onClick={() => {
+									this.downloadedItems(item.id)
+									this.props.newItem(item)
+								}}
 							>
-								<Link
-									to={`/details/:${item.id}`}
-									onClick={() => {
-										console.log('hello from id', item.id)
-										this.downloadedItems(item.id)
-										this.props.newItem(item)
-									}}
-								>
-									<Thumbnail item={item} />
+								<Thumbnail item={item} />
 							</Link>
-						</div>
+						</li>
 					))}
-				</div> : null}
-				{/* </ThumbContext.Provыider> */}
+				</ul> : null}
 			</Aux>
 		)
 	}

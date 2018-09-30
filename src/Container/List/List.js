@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import * as BeerAPI from '../../BeerAPI'
-import Thumbnail from '../../Components/Thumbnail/Thumbnail'
-import Loading from '../../Components/Loading/Loading'
-import classes from './List.css'
-import SearchPanel from '../SearchPanel/SearchPanel'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Thumbnail from '../../Components/Thumbnail/Thumbnail';
+import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import classes from './List.css';
+import axios_beerApi from '../../APIs/beerApi';
+import {itemErrorChecker, statusHandler} from '../../ErrorHandler';
 
 class List extends Component {
 	state = {
@@ -16,20 +16,7 @@ class List extends Component {
 		isEndOfList: false
 	}
 
-	checkItemError = (element) => {
-		if (element instanceof Error || element === undefined) {
-			console.log(element)
-			if (element instanceof Error && element.statusCode === 429)
-				alert('you have reached query limits. Try later in an hour');
-			this.setState({
-				isError: true,
-				isLoadingContent: false
-			})
-			return true
-		}
-	}
-
-	downloadNextItems = () => {
+	nextItemsDownloader = () => {
 		const per_page = this.state.per_page;
 		let storedItems = [...this.state.items],
 			page = this.state.page + 1;
@@ -37,9 +24,20 @@ class List extends Component {
 			isLoadingContent: true,
 			isError: false
 		})
-		BeerAPI.getAll(page, per_page)
+		const api = `https://api.punkapi.com/v2/beers`;
+		const query = `${api}?page=${page}&per_page=${per_page}`;
+		axios_beerApi.get(query)
+			.then(res => {
+				console.log(res);
+				if(statusHandler(res)) throw statusHandler(res);
+				return res.data
+			})
+			.then(data => {
+				console.log(data);
+				return data
+			})
 			.then(items => {
-				if (this.checkItemError(items)) return;
+				if (itemErrorChecker(items)) return;
 				if (items.length !== 0) storedItems = storedItems.concat(items);
 				//if the queries reached the end of list
 				if (items.length === 0) {
@@ -62,12 +60,12 @@ class List extends Component {
 			preBottom = document.body.offsetHeight - 500,
 			items = this.state.items,
 			isAlreadyLoading = this.state.isLoadingContent;
-		if (scrolled >= preBottom && items.length && !isAlreadyLoading) this.downloadNextItems()
+		if (scrolled >= preBottom && items.length && !isAlreadyLoading) this.nextItemsDownloader()
 	}
 
 	componentDidMount = () => {
 		const { isEndOfList } = this.state;
-		this.downloadNextItems();
+		this.nextItemsDownloader();
 		(!isEndOfList && window.addEventListener('scroll', this.handleScroll))
 	}
 
@@ -80,25 +78,24 @@ class List extends Component {
 
 		const errorMessage = <p>An error occured getting data</p>;
 		const itemList =
-			<div className={classes['item-list']}>
+			<ul className={classes['item-list']}>
 				{items.map(item => (
-					<div
+					<li
 						className={classes.item}
 						key={item.id}
 					>
 						<Link to={`/details/:${item.id}`}>
 							<Thumbnail item={item} />
 						</Link>
-					</div>
+					</li>
 				))}
-			</div>
-		const listEnd = isEndOfList ? <p>List End</p> : null,
+			</ul>
+		const listEnd = isEndOfList ? <p>That's all beers</p> : null,
 			content = !isError ? itemList : errorMessage,
-			loading = isLoadingContent ? <Loading /> : null;
+			loading = isLoadingContent ? <LoadingSpinner /> : null;
 		//handling errors while fetching contents
 		return (
 			<div className={classes.List}>
-				<SearchPanel />
 				{content}
 				{loading}
 				{listEnd}
