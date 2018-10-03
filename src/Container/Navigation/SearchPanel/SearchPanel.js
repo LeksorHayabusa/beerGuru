@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import WithClass from '../../hoc/WithClass'
-import Aux from '../../hoc/Aux'
+// import WithClass from '../../hoc/WithClass'
+// import Aux from '../../hoc/Aux'
 import classes from './SearchPanel.css'
 
 class SearchPanel extends Component {

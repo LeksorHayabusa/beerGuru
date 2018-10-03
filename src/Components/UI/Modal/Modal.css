@@ -1,0 +1,26 @@
+.Modal {
+	position: fixed;
+	z-index: 500;
+	background-color: rgb(255, 189, 189);
+	border: 1px solid red;
+	box-shadow: 1px 1px 1px black;
+	padding: 16px;
+	box-sizing: border-box;
+	transition: all 0.3s ease-out;
+	overflow-y: scroll;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+}
+
+@media only screen and (min-width: 1000px) {
+	.Modal {
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.Modal {
+
+	}
+}

@@ -1,8 +1,8 @@
 
 .Thumbnail { 
 	background-color: #fff;
-	height: 270px;
-	width: 200px;
+	height: 200px;
+	width: 150px;
 	border-radius: 5px;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 	transition: 0.3s;
@@ -39,7 +39,7 @@
 	margin-top: 10px;
 	width: calc(100% - 10px);
 	text-align: center;
-	font-size: 1.1em;
+	font-size: 0.9em;
 }
 
 .Thumbnail .slogan {
@@ -55,6 +55,6 @@
 
 @media only screen and (min-width: 1001px) {
 	.Thumbnail .preview-top {
-		width: 200px;		
+		width: 200px;
 	}
 }

@@ -1,4 +1,4 @@
-.Backdrop .active{
+.Backdrop{
 	display: block;
 	position: fixed;
 	top: 0;
@@ -7,4 +7,5 @@
 	height: 100vh;
 	background-color: rgba(0,0,0,0.5);
 	z-index: 100;
+	border: 1px solid green;
 }

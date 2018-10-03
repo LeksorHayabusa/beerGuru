@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Thumbnail from '../../Components/Thumbnail/Thumbnail';
-import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
-import classes from './SimilarList.css';
-import Aux from '../../hoc/Aux';
-import WithClass from '../../hoc/WithClass';
-import axios_beerApi from '../../APIs/beerApi';
-import { statusHandler, itemErrorChecker } from '../../ErrorHandler';
+import Thumbnail from '../../../Components/Thumbnail/Thumbnail';
+import LoadingSpinner from '../../../Components/UI/LoadingSpinner/LoadingSpinner';
+import classes from './SuggestionList.css';
+import WithClass from '../../../hoc/WithClass';
+import axios_beerApi from '../../../APIs/beerApi';
+import { statusHandler, itemErrorChecker } from '../../../ErrorHandler';
 
-class SimilarList extends Component {
+class SuggestionList extends Component {
 	state = {
 		isItemFetching: false,
 		isItemsLoading: false,
@@ -101,7 +100,7 @@ class SimilarList extends Component {
 			const loading = isItemsLoading ? <LoadingSpinner /> : null;
 		this.renderedItems()
 		return (
-			<Aux>
+			<Fragment>
 				<h4 className={classes.title}>You might like:</h4>
 				{loading}
 				{!isItemsLoading ? <ul className={classes.list}>
@@ -122,12 +121,12 @@ class SimilarList extends Component {
 						</li>
 					))}
 				</ul> : null}
-			</Aux>
+			</Fragment>
 		)
 	}
 }
 
-SimilarList.propTypes = {
+SuggestionList.propTypes = {
 	isItemFetching: PropTypes.bool,
 	isItemsLoading: PropTypes.bool,
 	isError: PropTypes.bool,
@@ -136,4 +135,4 @@ SimilarList.propTypes = {
 	items: PropTypes.array
 }
 
-export default WithClass(SimilarList, classes.SimilarList)
+export default WithClass(SuggestionList, classes.SuggestionList)

@@ -5,5 +5,5 @@ afterEach(cleanup)
 
 test('test on click', ()=> {
   const handleClick = jest.fn();
-  //const readChangedLocation = {renderIntoDocument(<SimilarList onClick={handleClick}/>)}
+  //const readChangedLocation = {renderIntoDocument(<SuggestionList onClick={handleClick}/>)}
 })

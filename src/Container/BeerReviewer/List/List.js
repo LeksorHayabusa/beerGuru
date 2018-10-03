@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Thumbnail from '../../Components/Thumbnail/Thumbnail';
-import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import Thumbnail from '../../../Components/Thumbnail/Thumbnail';
+import LoadingSpinner from '../../../Components/UI/LoadingSpinner/LoadingSpinner';
 import classes from './List.css';
-import axios_beerApi from '../../APIs/beerApi';
-import {itemErrorChecker, statusHandler} from '../../ErrorHandler';
+import axios_beerApi from '../../../APIs/beerApi';
+import { itemErrorChecker, statusHandler } from '../../../ErrorHandler';
 
 class List extends Component {
 	state = {
 		items: [],
 		page: null,
-		per_page: 10,
+		per_page: 20,
 		isLoadingContent: false,
 		isError: false,
 		isEndOfList: false
@@ -29,11 +29,10 @@ class List extends Component {
 		axios_beerApi.get(query)
 			.then(res => {
 				console.log(res);
-				if(statusHandler(res)) throw statusHandler(res);
+				if (statusHandler(res)) throw statusHandler(res);
 				return res.data
 			})
 			.then(data => {
-				console.log(data);
 				return data
 			})
 			.then(items => {
@@ -69,6 +68,10 @@ class List extends Component {
 		(!isEndOfList && window.addEventListener('scroll', this.handleScroll))
 	}
 
+	componentWillUnmount = () => {
+		return window.removeEventListener('scroll', this.handleScroll)
+	}
+
 	render() {
 		const {
 			items,
@@ -83,9 +86,12 @@ class List extends Component {
 					<li
 						className={classes.item}
 						key={item.id}
+						onClick={this.props.openInModal}
 					>
 						<Link to={`/details/:${item.id}`}>
-							<Thumbnail item={item} />
+							<Thumbnail
+								item={item}
+							/>
 						</Link>
 					</li>
 				))}

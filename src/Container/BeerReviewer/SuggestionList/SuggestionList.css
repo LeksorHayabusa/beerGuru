@@ -1,34 +1,35 @@
-.SimilarList {
+.SuggestionList {
 	display: flex;
 	flex-flow: column;
 	align-items: center;
 }
 
-.SimilarList .list { 
+.SuggestionList h4 {
+	margin: 10px 0 0 0;
+}
+
+.SuggestionList .list { 
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
-}
-
-.SimilarList .loading {
-	
+	padding: 0;
 }
 
 @media only screen and (min-width: 1001px) {
 
-	.SimilarList .list {
+	.SuggestionList .list {
 		width: 900px;
 	}
 }
 
 @media only screen and (max-width: 1000px) {
 	
-	.SimilarList {
-		flex-basis: 60%;
-		flex-shrink: 2;
+	.SuggestionList {
+		/* flex-basis: 60%;
+		flex-shrink: 2; */
 	}
 
-	.SimilarList .item {
+	.SuggestionList .item {
 		margin: 0 10px 20px 10px;
 	}
 }
