@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Thumbnail from '../../../Components/Thumbnail/Thumbnail';
 import LoadingSpinner from '../../../Components/UI/LoadingSpinner/LoadingSpinner';
 import classes from './List.css';
 import axios_beerApi from '../../../APIs/beerApi';
 import { itemErrorChecker, statusHandler } from '../../../ErrorHandler';
+import * as actionsCreator from '../../../store/actions/index';
 
 class List extends Component {
 	state = {
@@ -86,7 +89,7 @@ class List extends Component {
 					<li
 						className={classes.item}
 						key={item.id}
-						onClick={this.props.openInModal}
+						onClick={this.props.onModalOpen}
 					>
 						<Link to={`/details/:${item.id}`}>
 							<Thumbnail
@@ -110,4 +113,14 @@ class List extends Component {
 	}
 }
 
-export default List
+const mapStateToProps = state => {
+	return {isOpened: state.modalDscrp.isOpened}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		onModalOpen: () => dispatch(actionsCreator.openModal())
+	}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(List)

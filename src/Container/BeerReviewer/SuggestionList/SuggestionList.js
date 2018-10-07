@@ -1,10 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Thumbnail from '../../../Components/Thumbnail/Thumbnail';
 import LoadingSpinner from '../../../Components/UI/LoadingSpinner/LoadingSpinner';
 import classes from './SuggestionList.css';
-import WithClass from '../../../hoc/WithClass';
 import axios_beerApi from '../../../APIs/beerApi';
 import { statusHandler, itemErrorChecker } from '../../../ErrorHandler';
 
@@ -100,8 +99,8 @@ class SuggestionList extends Component {
 			const loading = isItemsLoading ? <LoadingSpinner /> : null;
 		this.renderedItems()
 		return (
-			<Fragment>
-				<h4 className={classes.title}>You might like:</h4>
+			<div className={classes.SuggestionList}>
+				<h4 className={classes.title}>Suggestions:</h4>
 				{loading}
 				{!isItemsLoading ? <ul className={classes.list}>
 					{items.map(item => (
@@ -121,7 +120,7 @@ class SuggestionList extends Component {
 						</li>
 					))}
 				</ul> : null}
-			</Fragment>
+			</div>
 		)
 	}
 }
@@ -135,4 +134,4 @@ SuggestionList.propTypes = {
 	items: PropTypes.array
 }
 
-export default WithClass(SuggestionList, classes.SuggestionList)
+export default SuggestionList

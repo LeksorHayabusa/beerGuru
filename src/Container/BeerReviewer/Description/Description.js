@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import classes from './Description.css';
 import LoadingSpinner from '../../../Components/UI/LoadingSpinner/LoadingSpinner';
 import axios_beerApi from '../../../APIs/beerApi';
 import { statusHandler, itemErrorChecker } from '../../../ErrorHandler';
+import * as actionsCreator from '../../../store/actions/index';
+
 
 class Description extends Component {
 
 	state = {
 		isError: false,
-		itemID: null,
+		itemID: undefined,
 		item: {},
-		isLoading: false
+		isLoading: true
 	}
 
-	downloadedSingleItem = () => {
+	singleItemHandler = () => {
 		this.setState({ isError: false })
 		const itemID = this.state.itemID;
 		const query = `/${itemID}`;
@@ -32,36 +36,30 @@ class Description extends Component {
 			})
 	}
 
-	item = (item) => {
+	//if item is undefined then read its id from location
+	item = (item = window.location.pathname.match(/\d+/)[0]) => {
+		if (!this.state.isLoading) {
+			this.setState({ isLoading: true })
+		}
+		if (typeof (item) === 'string') {
+			this.props.onModalOpen();
+			//otherwise the item is specified and must be fetched
+			this.setState(
+				{ itemID: item },
+				() => this.singleItemHandler()
+			)
+		}
 		//if item received from SuggestionList than push that item without fetching into state array
-		if (typeof (item) === 'object') {
+		/* if (typeof (item) === 'object') {
 			return this.setState({
 				item,
 				itemID: item.id
 			})
-		}
-		if(!this.state.isLoading) {
-			this.setState({isLoading: true})
-		}
-		//if item is undefined then read its id from location
-		let id = item;
-		if (!id) {
-			id = window.location.pathname.match(/\d+/)[0];
-			this.props.parent.openInModal()
-			//otherwise the id is specified and must be fetched
-			this.setState(
-				{ itemID: id },
-				() => this.downloadedSingleItem()
-			)
-		}
+		} */
 	}
 
 	componentDidMount = () => {
 		this.item()
-	}
-
-	shouldComponentUpdate = () => {
-
 	}
 
 	render() {
@@ -76,7 +74,7 @@ class Description extends Component {
 			food_pairing } = this.state.item,
 			//test what is a kind of image cover for bottle or keg
 			image = !(/keg\.png/i.test(image_url)),
-			loadingSpinner = this.props.isLoading ? (<LoadingSpinner />) : null,
+			loadingSpinner = this.state.isLoading ? (<LoadingSpinner />) : undefined,
 			imageContainer =
 				<div
 					className={image ? classes['bottle-cover'] : classes['keg-cover']}
@@ -114,4 +112,18 @@ class Description extends Component {
 	}
 }
 
-export default Description
+const mapStateToProps = state => {
+	return {
+		itmDscrp: state.itmDscrp.item,
+		modalDscrp:state.modalDscrp.isOpened
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		onItemGetting: () => dispatch(actionsCreator.getItem()),
+		onModalOpen: () => dispatch(actionsCreator.openModal())
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Description)

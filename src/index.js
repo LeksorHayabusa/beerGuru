@@ -1,21 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Container/App';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
-import './index.css';
-import thunk, {Provider} from 'redux-thunk';
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 
-/* import
+import App from './Container/App';
+import './index.css';
+import descriptionReducer from './store/reducers/descriptionReducer';
+import modalReducer from './store/reducers/modalReducer';
 
 const rootReducer = combineReducers({
-	dscrItm: descriptionReducer,
-	modal: modalReducer
+	itmDscrp: descriptionReducer,
+	modalDscrp: modalReducer
 })
-const store = createStore();
- */
+
+const logger = store => {
+	return next => {
+		return action => {
+			console.log('[Middleware] Dispatching', action);
+			const result = next(action);
+			console.log('[Middleware] next state', store.getState());
+			return result;
+		}
+	}
+};
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)));
+
 ReactDOM.render(
-	<BrowserRouter><App/></BrowserRouter>, document.getElementById('root')
+	<Provider store={store}>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</Provider>
+	, document.getElementById('root')
 );
 registerServiceWorker();
