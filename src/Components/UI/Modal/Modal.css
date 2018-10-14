@@ -1,26 +1,30 @@
 .Modal {
 	position: fixed;
 	z-index: 500;
-	background-color: rgb(255, 189, 189);
-	border: 1px solid red;
+	background-color: #fff;
+	border-radius: 5px;
 	box-shadow: 1px 1px 1px black;
 	padding: 16px;
 	box-sizing: border-box;
 	transition: all 0.3s ease-out;
 	overflow-y: scroll;
-	height: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	width: 90%;
+	height: 80%;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (max-width: 1000px) {
 	.Modal {
+		transform: translate(-50%,-50%);
+		height: 95%;
+		width: 75%;
 	}
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 600px) {
 	.Modal {
-
+		height: 100%;
+		width: 100%;
 	}
 }

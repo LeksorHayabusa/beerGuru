@@ -1,34 +1,16 @@
-.closeButton {
-	padding: 10px 20px;
-	border-radius: 5px;
-	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-	background: #fff;
-	position: relative;
-	text-align: center;
-	vertical-align: middle;
-	color: #333;
-	margin: 20px auto;
+.desktop-closeButton {
+	position: fixed;
 }
 
-.closeButton:active,
-.closeButton:checked {
+.desktop-closeButton:active,
+.desktop-closeButton:checked {
 	color: #444;	
 }
-.closeButton:hover {
+.desktop-closeButton:hover {
 	background-color: rgb(249, 255, 217);
 }
 
-@media only screen and (max-width: 1000px) {
-	.closeButton {
-		position: absolute;
-		top: 0px;
-		right: 10%;
-	}
-}
-
-@media only screen and (max-width: 600px) {
-	.closeButton {
-		position: fixed;
-		top: calc(100% - 100px)
-	}
+.mobile-closeButton {
+	bottom: 20px;
+	right: 20px;
 }

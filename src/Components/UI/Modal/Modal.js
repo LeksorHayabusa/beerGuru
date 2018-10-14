@@ -6,8 +6,12 @@ import classes from './Modal.css';
 import Backdrop from '../Backdrop/Backdrop';
 import CloseButton from '../Modal/CloseButton/CloseButton';
 import * as actionsCreator from '../../../store/actions/index';
-//передать булеан модального в бэкдроп
+
 class modal extends Component {
+
+	shouldComponentUpdate( nextProps, nextState ) {
+		return nextProps.children !== this.props.children
+	}
 	render() {
 		console.log(this.props.isOpened, 'hello from modal');
 		if (this.props.isOpened) {

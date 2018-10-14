@@ -79,8 +79,8 @@ class Description extends Component {
 				<div
 					className={image ? classes['bottle-cover'] : classes['keg-cover']}
 					style={{
-						width: '200px',
-						height: image ? '450px' : '300px',
+						width: '150px',
+						height: image ? '350px' : '250px',
 						backgroundImage: `url("${image_url}")`
 					}}
 				>
