@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import SuggestionList from '../SuggestionList/SuggestionList';
 import Description from '../Description/Description';
@@ -17,10 +16,5 @@ import classes from './Page.css';
       )
     }
   }
-
-Page.propTypes = {
-  itemID: PropTypes.number,
-  item: PropTypes.object
-}
 
 export default Page

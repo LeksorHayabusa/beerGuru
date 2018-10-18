@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 
 import * as actionsCreator from '../../../store/actions/index';
 
-const backdrop = (props) => (
-	props.isOpened ? <div
+const backdrop = (props) => {
+	if (props.isOpened) {return (
+	<div
 		className={classes.Backdrop}
 		onClick={props.onModalClose}
-	/> : null
-)
+	/>
+	)}
+}
 
 const mapStateToProps = state => {
 	return {isOpened: state.modalDscrp.isOpened}

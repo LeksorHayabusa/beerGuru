@@ -5,12 +5,10 @@ import closebutton_classes from './CloseButton.css';
 import button_classes from '../../Button/Button.css';
 import * as actionsCreator from '../../../../store/actions/index';
 
-const classesArray = [button_classes.Button];
+const classesArray = [button_classes.Button, 	closebutton_classes.closeButton];
 let classes;
 if( window.innerWidth <= 600 ) {
 	classesArray.push(closebutton_classes['mobile-closeButton'])
-} else {
-	classesArray.push(closebutton_classes['desktop-closeButton'])
 }
 classes = classesArray.join(' ');
 

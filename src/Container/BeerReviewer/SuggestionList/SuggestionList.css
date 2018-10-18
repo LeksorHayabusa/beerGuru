@@ -17,19 +17,22 @@
 
 @media only screen and (min-width: 1001px) {
 
-	.SuggestionList .list {
-		width: 900px;
+	.SuggestionList .item {
+		margin: auto 20px;
 	}
 }
 
 @media only screen and (max-width: 1000px) {
 	
 	.SuggestionList {
-		/* flex-basis: 60%;
-		flex-shrink: 2; */
+		margin: 50px 20px auto 20px;
 	}
 
 	.SuggestionList .item {
 		margin: 0 10px 20px 10px;
+	}
+
+	.SuggestionList h4 {
+		text-align: center;
 	}
 }

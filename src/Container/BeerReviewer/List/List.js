@@ -14,12 +14,13 @@ class List extends Component {
 		items: [],
 		page: null,
 		per_page: 20,
+		isInfiniteScrollON: true,
 		isLoadingContent: false,
 		isError: false,
 		isEndOfList: false
 	}
 
-	nextItemsDownloader = () => {
+	nextBeersDownloader = () => {
 		const per_page = this.state.per_page;
 		let storedItems = [...this.state.items],
 			page = this.state.page + 1;
@@ -62,13 +63,16 @@ class List extends Component {
 			preBottom = document.body.offsetHeight - 500,
 			items = this.state.items,
 			isAlreadyLoading = this.state.isLoadingContent;
-		if (scrolled >= preBottom && items.length && !isAlreadyLoading) this.nextItemsDownloader()
+		if (scrolled >= preBottom && items.length && !isAlreadyLoading) this.nextBeersDownloader()
 	}
 
 	componentDidMount = () => {
-		const { isEndOfList } = this.state;
-		this.nextItemsDownloader();
-		(!isEndOfList && window.addEventListener('scroll', this.handleScroll))
+		const { 
+			isEndOfList,
+			isInfiniteScrollON
+		} = this.state;
+		this.nextBeersDownloader();
+		if (!isEndOfList && isInfiniteScrollON) window.addEventListener('scroll', this.handleScroll);
 	}
 
 	componentWillUnmount = () => {
@@ -81,7 +85,6 @@ class List extends Component {
 			isLoadingContent,
 			isError,
 			isEndOfList } = this.state;
-
 		const errorMessage = <p>An error occured getting data</p>;
 		const itemList =
 			<ul className={classes['item-list']}>
@@ -89,9 +92,13 @@ class List extends Component {
 					<li
 						className={classes.item}
 						key={item.id}
-						onClick={this.props.onModalOpen}
+						onClick={() => {
+							this.props.openModalHandler();
+							console.log(item, 'hello from sending item from list');
+							this.props.itemStoreHandler(item)
+						}}
 					>
-						<Link to={`/details/:${item.id}`}>
+						<Link to={`/beer/:${item.id}`}>
 							<Thumbnail
 								item={item}
 							/>
@@ -99,9 +106,10 @@ class List extends Component {
 					</li>
 				))}
 			</ul>
-		const listEnd = isEndOfList ? <p>That's all beers</p> : null,
-			content = !isError ? itemList : errorMessage,
-			loading = isLoadingContent ? <LoadingSpinner /> : null;
+		const listEnd = isEndOfList && (<p>That's all beers</p>),
+		loading = isLoadingContent && (<LoadingSpinner/>),
+			content = !isError ? itemList : errorMessage;
+		if(!this.state.isInfiniteScrollON && this.props.isModalOpened) window.removeEventListener('scroll', this.handleScroll);
 		//handling errors while fetching contents
 		return (
 			<div className={classes.List}>
@@ -114,12 +122,15 @@ class List extends Component {
 }
 
 const mapStateToProps = state => {
-	return {isOpened: state.modalDscrp.isOpened}
+	return {
+		dscrpItem: state.dscrpItem.item,
+		isModalOpened: state.modalDscrp.isOpened}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onModalOpen: () => dispatch(actionsCreator.openModal())
+		itemStoreHandler: (item) => dispatch(actionsCreator.passItem(item)),
+		openModalHandler: () => dispatch(actionsCreator.openModal())
 	}
 }
 

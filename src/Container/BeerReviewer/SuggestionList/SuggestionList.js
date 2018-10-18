@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import * as actionsCreator from '../../../store/actions/index';
 import Thumbnail from '../../../Components/Thumbnail/Thumbnail';
 import LoadingSpinner from '../../../Components/UI/LoadingSpinner/LoadingSpinner';
 import classes from './SuggestionList.css';
@@ -72,7 +75,7 @@ class SuggestionList extends Component {
 			})
 	}
 
-	renderedItems = () => {
+	renderedBeers = () => {
 		//verification whether the loading is finished and items need to be rendered
 		const {
 			fetchedItems,
@@ -88,6 +91,8 @@ class SuggestionList extends Component {
 		}
 	}
 
+
+
 	componentDidMount = () => {
 		this.downloadedItems()
 	}
@@ -96,32 +101,44 @@ class SuggestionList extends Component {
 		const {
 			isItemsLoading,
 			items } = this.state;
-			const loading = isItemsLoading ? <LoadingSpinner /> : null;
-		this.renderedItems()
+			const loading = isItemsLoading && (<LoadingSpinner />);
+		this.renderedBeers()
 		return (
 			<div className={classes.SuggestionList}>
-				<h4 className={classes.title}>Suggestions:</h4>
+				<h4 className={classes.title}>With this beer people also like next:</h4>
 				{loading}
-				{!isItemsLoading ? <ul className={classes.list}>
+				{!isItemsLoading && (<ul className={classes.list}>
 					{items.map(item => (
 						<li
 							className={classes.item}
 							key={item.id}
 						>
 							<Link
-								to={`/details/:${item.id}`}
+								to={`/beer/:${item.id}`}
 								onClick={() => {
 									this.downloadedItems(item.id)
-									this.props.newItem(item)
+									this.props.itemStoreHandler(item)
 								}}
 							>
 								<Thumbnail item={item} />
 							</Link>
 						</li>
 					))}
-				</ul> : null}
+				</ul>)}
 			</div>
 		)
+	}
+}
+
+const mapStateToProps = state => {
+	return {
+		passItem: state.dscrpItem.item
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		itemStoreHandler: (item) => dispatch(actionsCreator.passItem(item))
 	}
 }
 
@@ -134,4 +151,4 @@ SuggestionList.propTypes = {
 	items: PropTypes.array
 }
 
-export default SuggestionList
+export default connect(mapStateToProps, mapDispatchToProps)(SuggestionList)

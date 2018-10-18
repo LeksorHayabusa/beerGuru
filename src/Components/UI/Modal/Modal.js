@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -10,13 +10,12 @@ import * as actionsCreator from '../../../store/actions/index';
 class modal extends Component {
 
 	shouldComponentUpdate( nextProps, nextState ) {
-		return nextProps.children !== this.props.children
+		return nextProps.isOpened !== this.props.isOpened || nextProps.children !== this.props.children
 	}
 	render() {
-		console.log(this.props.isOpened, 'hello from modal');
 		if (this.props.isOpened) {
 			return (
-				<Fragment>
+				<div className={classes['Modal-container']}>
 					<Backdrop/>
 					<div className={this.props.isOpened ? classes.Modal : null}
 						styles={{
@@ -27,9 +26,9 @@ class modal extends Component {
 						<CloseButton>Close</CloseButton>
 						{this.props.children}
 					</div>
-				</Fragment>
+				</div>
 			)
-		} else return <Redirect push to='/' />;
+		} else { return <Redirect push to='/' /> }
 	}
 }
 

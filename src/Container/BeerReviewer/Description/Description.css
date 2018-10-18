@@ -60,6 +60,15 @@
 	color:#333
 }
 
+.Description .spinner-cover {
+	width: 150px;
+	height: 350px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
 .Description .pairing-list .pairing-list {
 	text-indent: 10px;
 }

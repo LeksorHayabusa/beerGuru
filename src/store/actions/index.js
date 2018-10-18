@@ -1,4 +1,4 @@
-export { getItem } from './description';
+export { passItem } from './descriptionActions';
 export {
 	openModal,
 	closeModal

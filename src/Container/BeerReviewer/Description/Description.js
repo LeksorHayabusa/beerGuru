@@ -12,14 +12,11 @@ class Description extends Component {
 
 	state = {
 		isError: false,
-		itemID: undefined,
-		item: {},
-		isLoading: true
+		isLoading: false
 	}
 
-	singleItemHandler = () => {
+	singleBeerHandler = (itemID) => {
 		this.setState({ isError: false })
-		const itemID = this.state.itemID;
 		const query = `/${itemID}`;
 		axios_beerApi.get(query)
 			.then(res => {
@@ -29,36 +26,31 @@ class Description extends Component {
 			.catch(er => er)
 			.then(item => {
 				if (itemErrorChecker(item)) return;
-				this.setState({
-					isLoading: false,
-					item: item
-				})
+				this.props.getItemHandler(item)
+				this.setState({ isLoading: false })
 			})
 	}
 
 	//if item is undefined then read its id from location
-	item = (item = window.location.pathname.match(/\d+/)[0]) => {
+	item = (beer) => {
+		beer = beer ? null : window.location.pathname.match(/[^/beer/:]\d*/)[0];
 		if (!this.state.isLoading) {
 			this.setState({ isLoading: true })
 		}
-		if (typeof (item) === 'string') {
-			this.props.onModalOpen();
-			//otherwise the item is specified and must be fetched
-			this.setState(
-				{ itemID: item },
-				() => this.singleItemHandler()
-			)
+		if (typeof (beer) === 'string') {
+			//otherwise the beer is specified and must be fetched
+			this.singleBeerHandler(beer)
 		}
-		//if item received from SuggestionList than push that item without fetching into state array
-		/* if (typeof (item) === 'object') {
-			return this.setState({
-				item,
-				itemID: item.id
-			})
-		} */
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.item !== this.props.item || this.state.isLoading
 	}
 
 	componentDidMount = () => {
+		//here is it checks has the beer been preloaded or not
+		const beer = this.props.item;
+		if (Object.keys(beer).length !== 0 && beer.constructor === Object) return;
 		this.item()
 	}
 
@@ -71,11 +63,11 @@ class Description extends Component {
 			abv,
 			ebc,
 			description,
-			food_pairing } = this.state.item,
+			food_pairing } = this.props.item,
 			//test what is a kind of image cover for bottle or keg
 			image = !(/keg\.png/i.test(image_url)),
-			loadingSpinner = this.state.isLoading ? (<LoadingSpinner />) : undefined,
-			imageContainer =
+			loadingSpinner = this.state.isLoading && (<div className={classes['spinner-cover']}><LoadingSpinner /></div>),
+			imageContainer = (
 				<div
 					className={image ? classes['bottle-cover'] : classes['keg-cover']}
 					style={{
@@ -85,7 +77,7 @@ class Description extends Component {
 					}}
 				>
 					{loadingSpinner}
-				</div>;
+				</div>);
 		return (
 			<div className={classes.Description}>
 				{imageContainer}
@@ -114,14 +106,14 @@ class Description extends Component {
 
 const mapStateToProps = state => {
 	return {
-		itmDscrp: state.itmDscrp.item,
-		modalDscrp:state.modalDscrp.isOpened
+		item: state.dscrpItem.item,
+		modalDscrp: state.modalDscrp.isOpened
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onItemGetting: () => dispatch(actionsCreator.getItem()),
+		getItemHandler: (item) => dispatch(actionsCreator.passItem(item)),
 		onModalOpen: () => dispatch(actionsCreator.openModal())
 	}
 }

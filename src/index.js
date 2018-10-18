@@ -12,7 +12,7 @@ import descriptionReducer from './store/reducers/descriptionReducer';
 import modalReducer from './store/reducers/modalReducer';
 
 const rootReducer = combineReducers({
-	itmDscrp: descriptionReducer,
+	dscrpItem: descriptionReducer,
 	modalDscrp: modalReducer
 })
 
