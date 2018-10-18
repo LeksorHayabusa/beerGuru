@@ -7,20 +7,20 @@ import WithClass from '../hoc/WithClass';
 class App extends Component {
 
   state = {
-    showModalWindow: this.modalWindow,
-    content: null,
+    showModal: this.modal,
+    modalContent: null,
+    backdrop: false,
     props: {}
   }
 
-  modalWindow = (content = null, props = {}) => {
-    this.state({
-      content,
+  modal = (modalContent = null, props = {}) => {
+    this.setState({
+      modalContent,
       props
     })
   }
 
   render() {
-    const ModalContent = this.state.content;
     return (
       <Layout>
         <h1 className={classes["main-header"]}>
@@ -33,4 +33,4 @@ class App extends Component {
   }
 }
 
-export default WithClass(App, classes.App)
+export default App
