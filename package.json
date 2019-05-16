@@ -2,7 +2,7 @@
   "name": "beerapp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/LeksorHayabusa/beerGuru",
+  "homepage": "https://github.com/nikonov91-dev/beerGuru",
   "dependencies": {
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
